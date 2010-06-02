@@ -5,7 +5,8 @@ import org.junit.Assert._
 class ReversiSuite extends AssertionsForJUnit {
  
  @Test
-  def verifySomeStuff() {
+  def verifySetup() {
     assertEquals("1", 1.toString())
   }
+
 }
