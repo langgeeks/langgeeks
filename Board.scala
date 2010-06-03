@@ -1,14 +1,16 @@
 import scala.collection.mutable.ArrayBuffer
 
 class Board {
-    val squares = Array(createRow("........"),
-                        createRow("........"),
-                        createRow("........"),
-                        createRow("...BW..."),
-                        createRow("...WB..."),
-                        createRow("........"),
-                        createRow("........"),
-                        createRow("........"))
+    def startGame():Array[Array[Square.Value]] = {
+        Array(createRow("........"),
+              createRow("........"),
+              createRow("........"),
+              createRow("...BW..."),
+              createRow("...WB..."),
+              createRow("........"),
+              createRow("........"),
+              createRow("........"))
+    }
 
     def createRow(row:String):Array[Square.Value] = {
         val reply = new ArrayBuffer[Square.Value]()
