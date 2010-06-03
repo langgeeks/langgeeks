@@ -18,6 +18,15 @@ class ReversiSuite extends AssertionsForJUnit {
      assertEquals(Square.Black, board.squares(4)(4))
   }
 
+  @Test
+  def oneLineOfDotsIsEightEmptySquares() {
+      val board = new Board()
+      val row:Array[Square.Value] = board.createRow("........")
+      val emptyRow = Array(Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty)
+      assertEquals(emptyRow.size, row.size)
+      for (square <- row)
+           assertEquals(Square.Empty, square)
+  }
 
 }
 
