@@ -10,4 +10,13 @@ class Board {
                         Array(Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty),
                         Array(Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty))
 
+    def createRow(row:String):Array[Square.Value] = {
+        val reply = new ArrayBuffer[Square.Value]()
+        for (cell <- row) {
+            if (cell == '.')
+                reply += Square.Empty
+        }
+        reply.toArray
+    }
+
 }
