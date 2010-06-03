@@ -15,6 +15,12 @@ class Board {
         for (cell <- row) {
             if (cell == '.')
                 reply += Square.Empty
+            else if (cell == 'W')
+                reply += Square.White
+            else if (cell == 'B')
+                reply += Square.Black
+            else if (cell == 'O')
+                reply += Square.Possible
         }
         reply.toArray
     }
