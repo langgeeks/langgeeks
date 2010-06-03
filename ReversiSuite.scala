@@ -29,5 +29,15 @@ class ReversiSuite extends AssertionsForJUnit {
            assertEquals(Square.Empty, square)
   }
 
+  @Test
+  def oneLineWithAllTypesOfSquares() {
+      val row:Array[Square.Value] = board.createRow(".WBO")
+      val expected = Array(Square.Empty, Square.White, Square.Black, Square.Possible)
+      assertEquals(Square.Empty, row(0))
+      assertEquals(Square.White, row(1))
+      assertEquals(Square.Black, row(2))
+      assertEquals(Square.Possible, row(3))
+  }
+
 }
 
