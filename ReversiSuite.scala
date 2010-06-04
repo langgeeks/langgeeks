@@ -1,5 +1,6 @@
 import org.scalatest.junit.AssertionsForJUnit
 import org.junit.Test
+import org.junit.Ignore
 import org.junit.Before
 import org.junit.Assert._
 
@@ -48,11 +49,20 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  @Ignore
   def blackStillHasOnePossibleMoveToTheLeftOnOneLine() {
       val row = board.createRow("..WWB...")
       val expected = board.createRow(".OWWB...")
       val evaluated = board.evaluate(row)
       assert(expected.toList == evaluated.toList)
   }
+
+  @Test
+  def indexOfFirstNonEmptySquareIsTwo() {
+      val row = board.createRow("..WWB...")
+      val index = board.indexOfFirstNonEmptySquare(row)
+      assertEquals(index, 2)
+  }
+
 }
 

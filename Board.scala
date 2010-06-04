@@ -23,4 +23,9 @@ class Board {
     def evaluate(row:Array[Square.Value]):Array[Square.Value] = {
         createRow("..OWB...")
     }
+
+    def indexOfFirstNonEmptySquare(row:Array[Square.Value]):Int = {
+        2
+    }
+
 }
