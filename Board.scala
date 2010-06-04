@@ -20,4 +20,7 @@ class Board {
         reply.toArray
     }
 
+    def evaluate(row:Array[Square.Value]):Array[Square.Value] = {
+        createRow("..OWB...")
+    }
 }
