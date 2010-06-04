@@ -14,16 +14,9 @@ class Board {
 
     def createRow(row:String):Array[Square.Value] = {
         val reply = new ArrayBuffer[Square.Value]()
-        for (cell <- row) {
-            if (cell == '.')
-                reply += Square.Empty
-            else if (cell == 'W')
-                reply += Square.White
-            else if (cell == 'B')
-                reply += Square.Black
-            else if (cell == 'O')
-                reply += Square.Possible
-        }
+        for (cell <- row)
+            reply += Square.parse(cell)
+
         reply.toArray
     }
 
