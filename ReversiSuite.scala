@@ -4,6 +4,8 @@ import org.junit.Ignore
 import org.junit.Before
 import org.junit.Assert._
 
+import Square._
+
 class ReversiSuite extends AssertionsForJUnit {
   
   var board:Board = _
@@ -16,28 +18,28 @@ class ReversiSuite extends AssertionsForJUnit {
   @Test
   def startBoardIsSetupCorrectly() {
     val startBoard = board.startGame
-    assertEquals(Square.Black, startBoard(3)(3))
-    assertEquals(Square.White, startBoard(3)(4))
-    assertEquals(Square.White, startBoard(4)(3))
-    assertEquals(Square.Black, startBoard(4)(4))
+    assertEquals(Black, startBoard(3)(3))
+    assertEquals(White, startBoard(3)(4))
+    assertEquals(White, startBoard(4)(3))
+    assertEquals(Black, startBoard(4)(4))
   }
 
   @Test
   def oneLineOfDotsIsEightEmptySquares() {
     val row = board.createRow("........")
-    val emptyRow = Array(Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty, Square.Empty)
+    val emptyRow = Array(Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty)
     assertEquals(emptyRow.size, row.size)
     for (square <- row)
-      assertEquals(Square.Empty, square)
+      assertEquals(Empty, square)
   }
 
   @Test
   def oneLineWithAllTypesOfSquares() {
     val row = board.createRow(".WBO")
-    assertEquals(Square.Empty, row(0))
-    assertEquals(Square.White, row(1))
-    assertEquals(Square.Black, row(2))
-    assertEquals(Square.Possible, row(3))
+    assertEquals(Empty, row(0))
+    assertEquals(White, row(1))
+    assertEquals(Black, row(2))
+    assertEquals(Possible, row(3))
   }
 
   @Test
