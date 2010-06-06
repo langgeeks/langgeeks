@@ -14,11 +14,7 @@ class Board {
   }
 
   def createRow(row: String): Array[Square.Value] = {
-    val reply = new ArrayBuffer[Square.Value]()
-    for (cell <- row)
-      reply += Square.parse(cell)
-
-    reply.toArray
+    row.map { Square.parse(_) }.toArray
   }
 
   def evaluate(row: Array[Square.Value]): Array[Square.Value] = {
