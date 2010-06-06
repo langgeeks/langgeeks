@@ -5,15 +5,13 @@ object Square extends Enumeration {
   val Possible = Value("O")
 
   def parse(cell:Char):Square.Value = {
-    if (cell == '.')
-      return Square.Empty
-    if (cell == 'W')
-      return Square.White
-    if (cell == 'B')
-      return Square.Black
-    if (cell == 'O')
-      return Square.Possible
-    throw new RuntimeException
+    cell match {
+      case '.' => Square.Empty
+      case 'W' => Square.White
+      case 'B' => Square.Black
+      case 'O' => Square.Possible
+      case _ => throw new RuntimeException
+    }
   }
 
 }
