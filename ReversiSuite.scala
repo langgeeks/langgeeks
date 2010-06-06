@@ -7,8 +7,7 @@ import org.junit.Assert._
 import Square._
 
 class ReversiSuite extends AssertionsForJUnit {
-  
-  var board:Board = _
+  var board: Board = _
 
   @Before
   def setup() {
@@ -67,4 +66,3 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
 }
-
