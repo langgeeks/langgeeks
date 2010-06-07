@@ -1,4 +1,5 @@
 import scala.collection.mutable.ArrayBuffer
+import Square._
 
 class Board {
   def startGame(): Array[Array[Square.Value]] = {
@@ -22,13 +23,14 @@ class Board {
   }
 
   def indexOfFirstNonEmptySquare(row: Array[Square.Value]): Int = {
-    var i = -1
-    for (square <- row) {
-      i += 1
-      if (square != Square.Empty)
-        return i
-    }
-    i
+    indexOfFirstNonEmptySquare(row, 0)
+  }
+
+  private def indexOfFirstNonEmptySquare(row: Array[Square.Value], startIndex:Int): Int = {
+    if (row(startIndex) != Empty)
+      return startIndex
+    else
+      return indexOfFirstNonEmptySquare(row, startIndex + 1)
   }
 
 }

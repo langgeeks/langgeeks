@@ -62,7 +62,13 @@ class ReversiSuite extends AssertionsForJUnit {
   def indexOfFirstNonEmptySquareIsTwo() {
     val row = board.createRow("..WWB...")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(index, 2)
+    assertEquals(2, index)
   }
 
+  @Test
+  def indexOfFirstNonEmptySquareIsThree() {
+    val row = board.createRow("...WWB..")
+    val index = board.indexOfFirstNonEmptySquare(row)
+    assertEquals(3, index)
+  }
 }
