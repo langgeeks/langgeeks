@@ -27,6 +27,8 @@ class Board {
   }
 
   private def indexOfFirstNonEmptySquare(row: Array[Square.Value], startIndex:Int): Int = {
+    if (row.size == startIndex)
+      return -1
     if (row(startIndex) != Empty)
       return startIndex
     else
