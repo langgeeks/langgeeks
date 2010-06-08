@@ -159,9 +159,17 @@ find_moves(Filename) :-
 
     print_moves(Result).
 
-print_moves([]) :- !.
+% prints the last move
+
+print_moves([R:C|[]]) :-
+    Code is R + 64,
+    char_code(Char, Code),
+    print(Char),print(C), print('\n').
+
+% print moves
+
 print_moves([R:C|Moves]) :-
     Code is R + 64,
     char_code(Char, Code),
-    print(Char),print(C), print('\n'),
+    print(Char),print(C), print(', '),
     print_moves(Moves).
