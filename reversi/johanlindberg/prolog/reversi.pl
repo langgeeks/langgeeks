@@ -1,16 +1,22 @@
 % reversi kata
 
 process(File) :-
-        open(File, read, In),
-        get_char(In, Char1),
-        process_stream(Char1, In),
-        close(In).
+    open(File, read, In),
+    get_char(In, Char1),
+
+    R is 1,
+    C is 1,
+    process_stream(Char1, R, C, In),
+
+    close(In).
  
-process_stream(end_of_file, _) :- !.
-process_stream(Char, In) :-
-        print(Char),
-        get_char(In, Char2),
-        process_stream(Char2, In).
+process_stream(end_of_file, _, _, _) :- !.
+process_stream(Char, R, C, In) :-
+    print(position(Char,R,C)),
+    get_char(In, Char2),
+
+    C1 is C + 1,
+    process_stream(Char2, R, C1, In).
 
 % a position is a legal move if it
 % is empty and has a chain to the
