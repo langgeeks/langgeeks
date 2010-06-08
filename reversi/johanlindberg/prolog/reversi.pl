@@ -146,3 +146,20 @@ uchain(R,C,Player) :-
 
     R1 is R - 1,
     uchain(R1,C,Player).
+
+% find moves, prints all legal moves
+% given a text file containing game
+% state.
+
+find_moves(Filename) :-
+    process(Filename),
+
+    current_player(P),
+    findall(R:C, legal_move(R,C,P), Result),
+
+    print_moves(Result).
+
+print_moves([]) :- !.
+print_moves([Move|Moves]) :-
+    print(Move), print('\n'),
+    print_moves(Moves).
