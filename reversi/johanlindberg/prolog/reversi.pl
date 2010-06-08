@@ -18,8 +18,14 @@ process_stream('\n', R, C, In) :-
     R1 is R + 1,
     process_stream(Char2, R1, 1, In).
 
+process_stream(Char, 9, 1, In) :-
+    assertz(current_player(Char)),
+    get_char(In, Char2),
+
+    process_stream(Char2, 9, 2, In).
+
 process_stream(Char, R, C, In) :-
-    print(position(Char,R,C)),
+    assertz(position(Char,R,C)),
     get_char(In, Char2),
 
     C1 is C + 1,
