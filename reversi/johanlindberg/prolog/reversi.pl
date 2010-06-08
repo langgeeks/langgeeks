@@ -1,6 +1,9 @@
 % reversi kata
 
 process(File) :-
+    retractall(position(_,_,_)),
+    retractall(current_player(_)),
+
     open(File, read, In),
     get_char(In, Char1),
 
