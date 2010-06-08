@@ -1,5 +1,8 @@
 % reversi kata
 
+% loads reversi state information from
+% a text file.
+
 process(File) :-
     retractall(position(_,_,_)),
     retractall(current_player(_)),
@@ -15,17 +18,23 @@ process(File) :-
  
 process_stream(end_of_file, _, _, _) :- !.
 
+% handle newlines
+
 process_stream('\n', R, C, In) :-
     get_char(In, Char2),
 
     R1 is R + 1,
     process_stream(Char2, R1, 1, In).
 
+% handle current player information
+
 process_stream(Char, 9, 1, In) :-
     assertz(current_player(Char)),
     get_char(In, Char2),
 
     process_stream(Char2, 9, 2, In).
+
+% handle board position info
 
 process_stream(Char, R, C, In) :-
     assertz(position(Char,R,C)),
