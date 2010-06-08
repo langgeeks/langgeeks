@@ -6,6 +6,8 @@ position('W',0,2).
 
 legal_move(R,C,Player) :-
     position('.',R,C),
-    position(Opponent,R,C+1),
+    C1 is C + 1,
+    position(Opponent,R,C1),
     Opponent \= Player,
-    position(Player,R,C+2).
+    C2 is C + 2,
+    position(Player,R,C2).
