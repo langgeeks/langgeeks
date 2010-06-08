@@ -160,6 +160,8 @@ find_moves(Filename) :-
     print_moves(Result).
 
 print_moves([]) :- !.
-print_moves([Move|Moves]) :-
-    print(Move), print('\n'),
+print_moves([R:C|Moves]) :-
+    Code is R + 64,
+    char_code(Char, Code),
+    print(Char),print(C), print('\n'),
     print_moves(Moves).
