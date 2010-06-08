@@ -16,7 +16,11 @@ B
 
 A "." indicates an empty square. A "B" indicates a black piece and a "W" represents a white piece. The trailing "B" indicates that it is black's turn.
 
-You could either output the possible moves as co-ordinates (columns labelled A - H, rows labelled 1 - 8 starting from top left hand corner) like this: [C5, D6, E3, F4]
+You could either output the possible moves as co-ordinates or graphically.
+
+For example, with columns labelled A - H and rows labelled 1 - 8 (starting from top left hand corner) like this:
+
+[C5, D6, E3, F4]
 
 or graphically like this:
 
@@ -28,4 +32,4 @@ or graphically like this:
 ...0....
 ........
 ........
-B
+
