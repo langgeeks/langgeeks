@@ -11,6 +11,13 @@ process(File) :-
     close(In).
  
 process_stream(end_of_file, _, _, _) :- !.
+
+process_stream('\n', R, C, In) :-
+    get_char(In, Char2),
+
+    R1 is R + 1,
+    process_stream(Char2, R1, 1, In).
+
 process_stream(Char, R, C, In) :-
     print(position(Char,R,C)),
     get_char(In, Char2),
