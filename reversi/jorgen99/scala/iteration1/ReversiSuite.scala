@@ -85,9 +85,17 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  def noPossibleMovesWithOnlyOnePieceOnTheEighthSquare() {
+  def noPossibleMovesForBlackWithOnlyOnePieceOnTheEighthSquare() {
     val row = board.createRow(".......W")
     val expected = board.createRow(".......W")
+    val evaluated = board.evaluate(row)
+    assert(expected.toList == evaluated.toList)
+  }
+
+  @Test
+  def noPossibleMovesForBlackWhenFirstSquareIsBlack() {
+    val row = board.createRow("..B....")
+    val expected = board.createRow("..B....")
     val evaluated = board.evaluate(row)
     assert(expected.toList == evaluated.toList)
   }
