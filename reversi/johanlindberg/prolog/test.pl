@@ -13,5 +13,7 @@ test(Filename, Expected) :-
     process(Filename),
     current_player(P),
 
+    !,
+
     findall(R:C, legal_move(R,C,P), Expected) ->
     print(' pass.\n') ; print(' fail!\n').
