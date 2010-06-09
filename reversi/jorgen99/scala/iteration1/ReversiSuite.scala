@@ -42,34 +42,17 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  def blackHasOnePossibleMoveToTheLeftOnOneLine() {
-    val row = board.createRow("...WB...")
-    val expected = board.createRow("..OWB...")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
-  }
-
-  @Test
-  @Ignore
-  def blackStillHasOnePossibleMoveToTheLeftOnOneLine() {
-    val row = board.createRow("..WWB...")
-    val expected = board.createRow(".OWWB...")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
-  }
-
-  @Test
-  def indexOfFirstNonEmptySquareIsTwo() {
-    val row = board.createRow("..WWB...")
-    val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(2, index)
-  }
-
-  @Test
   def indexOfFirstNonEmptySquareIsThree() {
-    val row = board.createRow("...WWB..")
+    val row = board.createRow("..WWB...")
     val index = board.indexOfFirstNonEmptySquare(row)
     assertEquals(3, index)
+  }
+
+  @Test
+  def indexOfFirstNonEmptySquareIsFour() {
+    val row = board.createRow("...WWB..")
+    val index = board.indexOfFirstNonEmptySquare(row)
+    assertEquals(4, index)
   }
 
   @Test
@@ -78,5 +61,45 @@ class ReversiSuite extends AssertionsForJUnit {
     val index = board.indexOfFirstNonEmptySquare(row)
     assertEquals(-1, index)
   }
+
+  @Test
+  def indexOfFirstNonEmptySquareIsOne() {
+    val row = board.createRow("W.......")
+    val index = board.indexOfFirstNonEmptySquare(row)
+    assertEquals(1, index)
+  }
+
+  @Test
+  def indexOfFirstNonEmptySquareIsEight() {
+    val row = board.createRow(".......W")
+    val index = board.indexOfFirstNonEmptySquare(row)
+    assertEquals(8, index)
+  }
+
+  @Test
+  def onlyEmptyRowsHaveNoPossibleMoves() {
+    val row = board.createRow("........")
+    val expected = board.createRow("........")
+    val evaluated = board.evaluate(row)
+    assert(expected.toList == evaluated.toList)
+  }
+
+  @Test
+  def noPossibleMovesWithOnlyOnePieceOnTheEighthSquare() {
+    val row = board.createRow(".......W")
+    val expected = board.createRow(".......W")
+    val evaluated = board.evaluate(row)
+    assert(expected.toList == evaluated.toList)
+  }
+
+  @Test
+  @Ignore
+  def blackHasOnePossibleMoveToTheLeftOnOneLine() {
+    val row = board.createRow("...WB...")
+    val expected = board.createRow("..OWB...")
+    val evaluated = board.evaluate(row)
+    assert(expected.toList == evaluated.toList)
+  }
+
 
 }
