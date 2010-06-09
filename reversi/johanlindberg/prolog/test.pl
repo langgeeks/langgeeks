@@ -6,6 +6,11 @@ all :-
     test('test3.txt', [6:4,6:5]).
 
 test(Filename, Expected) :-
+    print('testing '),
+    print(Filename),
+
     process(Filename),
     current_player(P),
-    findall(R:C, legal_move(R,C,P), Expected).
+
+    findall(R:C, legal_move(R,C,P), Expected) ->
+    print(' pass.\n') ; print(' fail!\n').
