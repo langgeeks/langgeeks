@@ -19,7 +19,11 @@ class Board {
   }
 
   def evaluate(row: Array[Square.Value]): Array[Square.Value] = {
-    createRow("..OWB...")
+    val firstNonempty = indexOfFirstNonEmptySquare(row)
+    if(firstNonempty == -1) return row
+    if(firstNonempty == 8) return row
+    if(row(firstNonempty - 1) == Black) return row
+    throw new RuntimeException
   }
 
   def indexOfFirstNonEmptySquare(row: Array[Square.Value]): Int = {
@@ -30,7 +34,7 @@ class Board {
     if (row.size == startIndex)
       return -1
     if (row(startIndex) != Empty)
-      return startIndex
+      return startIndex + 1
     else
       return indexOfFirstNonEmptySquare(row, startIndex + 1)
   }
