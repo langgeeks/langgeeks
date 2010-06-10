@@ -164,12 +164,12 @@ find_moves(Filename) :-
 print_moves([R:C|[]]) :-
     Code is R + 64,
     char_code(Char, Code),
-    print(Char),print(C), print('\n').
+    write(Char),write(C), nl.
 
 % print moves
 
 print_moves([R:C|Moves]) :-
     Code is R + 64,
     char_code(Char, Code),
-    print(Char),print(C), print(', '),
+    write(Char),write(C),write(','),
     print_moves(Moves).
