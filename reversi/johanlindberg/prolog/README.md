@@ -18,42 +18,42 @@ I've used [Gnu Prolog 1.3.0](http://www.gprolog.org/) running on a Linux install
 
 ### Running the code
 
-GNU Prolog 1.3.0
-By Daniel Diaz
-Copyright \(C\) 1999-2007 Daniel Diaz
-| ?- change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
-change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
-
-yes
-| ?- \['reversi.pl'\].
-\['reversi.pl'\].
-compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl for byte code...
-/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl:23-27: warning: singleton variables \[C\] for process_stream/4
-/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl compiled, 175 lines read - 12715 bytes written, 51 ms
-
-\(4 ms\) yes
-| ?- \['test.pl'\].
-\['test.pl'\].
-compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl for byte code...
-/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl compiled, 26 lines read - 3451 bytes written, 19 ms
-
-\(4 ms\) yes
-| ?- all.
-all.
-testing test1.txt pass.
-testing test2.txt pass.
-testing test3.txt pass.
-
-\(64 ms\) yes
-| ?- find_moves\('test1.txt'\).
-find_moves\('test1.txt'\).
-E3,D6,C5,F4
-
-true ? 
-
-
-\(32 ms\) yes
-| ?- 
+    GNU Prolog 1.3.0
+    By Daniel Diaz
+    Copyright \(C\) 1999-2007 Daniel Diaz
+    | ?- change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
+    change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
+    
+    yes
+    | ?- \['reversi.pl'\].
+    \['reversi.pl'\].
+    compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl for byte code...
+    /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl:23-27: warning: singleton variables \[C\] for process_stream/4
+    /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl compiled, 175 lines read - 12715 bytes written, 51 ms
+    
+    \(4 ms\) yes
+    | ?- \['test.pl'\].
+    \['test.pl'\].
+    compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl for byte code...
+    /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl compiled, 26 lines read - 3451 bytes written, 19 ms
+    
+    \(4 ms\) yes
+    | ?- all.
+    all.
+    testing test1.txt pass.
+    testing test2.txt pass.
+    testing test3.txt pass.
+    
+    \(64 ms\) yes
+    | ?- find_moves\('test1.txt'\).
+    find_moves\('test1.txt'\).
+    E3,D6,C5,F4
+    
+    true ? 
+    
+    
+    \(32 ms\) yes
+    | ?- 
 
 ### Resources
 
