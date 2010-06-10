@@ -16,6 +16,45 @@ All in all. Prolog is kind of cool. I'll keep exploring it for a little while lo
 
 I've used [Gnu Prolog 1.3.0](http://www.gprolog.org/) running on a Linux installation to solve this kata. I'm not aware of having used any platform or gnu prolog specific things in my code. It *should* work on other setups as well.
 
+### Running the code
+
+GNU Prolog 1.3.0
+By Daniel Diaz
+Copyright \(C\) 1999-2007 Daniel Diaz
+| ?- change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
+change_directory\('~/Projects/langgeeks/reversi/johanlindberg/prolog/'\).
+
+yes
+| ?- \['reversi.pl'\].
+\['reversi.pl'\].
+compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl for byte code...
+/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl:23-27: warning: singleton variables \[C\] for process_stream/4
+/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/reversi.pl compiled, 175 lines read - 12715 bytes written, 51 ms
+
+\(4 ms\) yes
+| ?- \['test.pl'\].
+\['test.pl'\].
+compiling /home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl for byte code...
+/home/johanlindberg/Projects/langgeeks/reversi/johanlindberg/prolog/test.pl compiled, 26 lines read - 3451 bytes written, 19 ms
+
+\(4 ms\) yes
+| ?- all.
+all.
+testing test1.txt pass.
+testing test2.txt pass.
+testing test3.txt pass.
+
+\(64 ms\) yes
+| ?- find_moves\('test1.txt'\).
+find_moves\('test1.txt'\).
+E3,D6,C5,F4
+
+true ? 
+
+
+\(32 ms\) yes
+| ?- 
+
 ### Resources
 
 I have a copy of [The Art of Prolog](http://mitpress.mit.edu/catalog/item/default.asp?tid=8327&ttype=2), hoping it was going to be a good resource to get me through some practical Prolog programming. It was not. It is, however, a very good read on the theory of Logic programming and the concepts Prolog are built around.
