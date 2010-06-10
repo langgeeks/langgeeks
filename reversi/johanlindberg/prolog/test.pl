@@ -7,17 +7,16 @@ all :-
     test('test3.txt', [6:4,6:5]).
 
 test(Filename, Expected) :-
-    print('testing '),
-    print(Filename),
+    write('testing '),
+    write(Filename),
 
     run(Filename, Result),
-    Expected = Result
-    -> print(' pass.\n')
-    ; ( print(' fail! Expected '),
-	print(Expected),
-	print(' but got '),
-	print(Result),
-	print('\n') ).
+    Expected \= Result
+    -> ( write(' fail! Expected '),
+	 write(Expected),
+	 write(' but got '),
+	 write(Result), nl )
+    ;  ( write(' pass.'), nl ).
 
 run(Filename, Result) :-
     process(Filename),
