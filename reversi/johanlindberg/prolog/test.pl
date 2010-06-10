@@ -1,11 +1,17 @@
 % running tests
 
 all :-
-    test(run, 'test1.txt', [5:3,4:6,3:5,6:4]),
-    test(run, 'test2.txt', [5:6,3:4]),
-    test(run, 'test3.txt', [6:4,6:5]).
+    asserteq(run, 'test1.txt', [5:3,4:6,3:5,6:4]),
+    asserteq(run, 'test2.txt', [5:6,3:4]),
+    asserteq(run, 'test3.txt', [6:4,6:5]).
 
-test(Functor, Args, Expected) :-
+asserteq(Functor, Args, Expected) :-
+    test(Functor, Args, Expected, \=).
+
+assertneq(Functor, Args, Expected) :-
+    test(Functor, Args, Expected, =).
+
+test(Functor, Args, Expected, Cmp) :-
     Goal =.. [Functor,Args,Result],
 
     write('testing '),
@@ -13,7 +19,9 @@ test(Functor, Args, Expected) :-
 
     call(Goal),
 
-    Expected \= Result
+    Comparison =.. [Cmp,Expected,Result],
+
+    call(Comparison)
     -> ( write(' fail! Expected '),
 	 write(Expected),
 	 write(' but got '),
