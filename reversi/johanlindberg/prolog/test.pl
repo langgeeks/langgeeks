@@ -10,7 +10,8 @@ test(Filename, Expected) :-
     print('testing '),
     print(Filename),
 
-    run(Filename, Expected, Result)
+    run(Filename, Result),
+    Expected = Result
     -> print(' pass.\n')
     ; ( print(' fail! Expected '),
 	print(Expected),
@@ -18,11 +19,10 @@ test(Filename, Expected) :-
 	print(Result),
 	print('\n') ).
 
-run(Filename, Expected, Result) :-
+run(Filename, Result) :-
     process(Filename),
     current_player(P),
 
     !,
 
-    findall(R:C, legal_move(R,C,P), Result),
-    Expected = Result.
+    findall(R:C, legal_move(R,C,P), Result).
