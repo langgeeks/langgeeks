@@ -1,15 +1,18 @@
 % running tests
 
 all :-
-    test('test1.txt', [5:3,4:6,3:5,6:4]),
-    test('test2.txt', [5:6,3:4]),
-    test('test3.txt', [6:4,6:5]).
+    test(run, 'test1.txt', [5:3,4:6,3:5,6:4]),
+    test(run, 'test2.txt', [5:6,3:4]),
+    test(run, 'test3.txt', [6:4,6:5]).
 
-test(Filename, Expected) :-
+test(Functor, Args, Expected) :-
+    Goal =.. [Functor,Args,Result],
+
     write('testing '),
-    write(Filename),
+    writeq(Goal),
 
-    run(Filename, Result),
+    call(Goal),
+
     Expected \= Result
     -> ( write(' fail! Expected '),
 	 write(Expected),
