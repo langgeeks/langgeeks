@@ -11,13 +11,13 @@ opponent(Player) ->
 
 find_lmoves(Board,Player) ->
     {_,[{Pos,_}]} = re:run(Board,
-			   string:join(["\\.",opponent(Player),Player],""),
+			   string:join(["\\.",opponent(Player),"+",Player],""),
 			   []),
     Pos.
 
 find_rmoves(Board,Player) ->
     {_,[{_,Pos}]} = re:run(Board,
-			   string:join([Player,opponent(Player),"\\."],""),
+			   string:join([Player,opponent(Player),"+\\."],""),
 			   []),
     Pos - 1.
     
