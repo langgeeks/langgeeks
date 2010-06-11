@@ -1,13 +1,23 @@
 % reversi kata
 
 -module(reversi).
--export([find_lmoves/1, find_rmoves/1]).
+-export([opponent/1, find_lmoves/2, find_rmoves/2]).
 
-find_lmoves(Board) ->
-    {_,[{Pos,_}]} = re:run(Board,"\.W+B",[]),
+opponent(Player) ->
+    if
+	Player == "B" -> "W";
+	true          -> "B"
+    end.
+
+find_lmoves(Board,Player) ->
+    {_,[{Pos,_}]} = re:run(Board,
+			   string:join(["\\.",opponent(Player),Player],""),
+			   []),
     Pos.
 
-find_rmoves(Board) ->
-    {_,[{_,Pos}]} = re:run(Board,"BW+\.",[]),
+find_rmoves(Board,Player) ->
+    {_,[{_,Pos}]} = re:run(Board,
+			   string:join([Player,opponent(Player),"\\."],""),
+			   []),
     Pos - 1.
     
