@@ -42,3 +42,11 @@ find_rmoves_test() ->
     7 = reversi:find_rmoves("WBBBBBB.", "W"),
     4 = reversi:find_rmoves("WBBB..", "W").    
 
+load_game_state(Filename) ->
+    true.
+
+load_game_state_test() ->
+    { board,
+      {rows, [Rows]},
+      {cols, [Cols]} } = reversi:load_game_state("test1.txt").
+      
