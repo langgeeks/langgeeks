@@ -1,7 +1,7 @@
 % reversi kata
 
 -module(reversi).
--export([opponent/1, find_lmoves/2, find_rmoves/2]).
+-export([opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1]).
 -include_lib("eunit/include/eunit.hrl").
 
 opponent(Player) ->
@@ -43,10 +43,20 @@ find_rmoves_test() ->
     4 = reversi:find_rmoves("WBBB..", "W").    
 
 load_game_state(Filename) ->
-    true.
+    {ok,Input} = file:open(Filename,[read]),
+    Rows = read_rows(1,Input,[]),
+    Cols = make_cols(1,Rows),
+
+    {board, {rows, Rows}, {cols, Cols}}.
+
+read_rows(N,Input,Rows) ->
+    [].
+
+make_cols(N,Rows) ->
+    [].
 
 load_game_state_test() ->
     { board,
-      {rows, [Rows]},
-      {cols, [Cols]} } = reversi:load_game_state("test1.txt").
+      {rows, Rows},
+      {cols, Cols} } = reversi:load_game_state("test1.txt").
       
