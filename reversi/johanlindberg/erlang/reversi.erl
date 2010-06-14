@@ -44,13 +44,20 @@ find_rmoves_test() ->
 
 load_game_state(Filename) ->
     {ok,Input} = file:open(Filename,[read]),
-    Rows = read_rows(1,Input,[]),
-    Cols = make_cols(1,Rows),
+    Lines      = contents_of_file(Input,[]),
 
-    {board, {rows, Rows}, {cols, Cols}}.
+    Rows       = lists:sublist(Lines,1,8),
+    Cols       = make_cols(Rows,[]),
 
-read_rows(N,Input,Rows) ->
-    [].
+    Player     = lists:nth(9,Lines), 
+
+    {board, {rows, Rows}, {cols, Cols}, {player, Player}}.
+
+contents_of_file(Input, Lines) ->
+    case io:get_line(Input,"") of
+	eof -> Lines;
+	Line -> contents_of_file(Input,[Line|Lines])
+    end.
 
 make_cols(N,Rows) ->
     [].
