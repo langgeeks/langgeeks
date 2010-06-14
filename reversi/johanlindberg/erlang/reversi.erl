@@ -47,8 +47,7 @@ make_cols(Rows) ->
 make_cols([Row|Rows],Cols) ->
     F = fun(A,B) -> lists:concat([B,A]) end,
     C = lists:zipwith(F, Row, Cols),
-    case Rows of
-	[]   -> C;
-	Rows -> make_cols(Rows,C)
+    if Rows == [] -> C;
+       true       -> make_cols(Rows,C)
     end.
 
