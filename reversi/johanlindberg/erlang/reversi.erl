@@ -67,5 +67,6 @@ load_game_state_test() ->
       {rows, Rows},
       {cols, Cols},
       {player, Player} } = reversi:load_game_state("test1.txt"),
+    "B" = Player,
     8 = length(Rows).
       
