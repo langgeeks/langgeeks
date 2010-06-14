@@ -47,7 +47,7 @@ load_game_state(Filename) ->
     Lines      = contents_of_file(Input,[]),
 
     Rows       = lists:sublist(Lines,1,8),
-    Cols       = make_cols(Rows,[]),
+    Cols       = make_cols(Rows),
 
     Player     = lists:nth(9,Lines), 
 
@@ -61,7 +61,7 @@ contents_of_file(Input, Lines) ->
 					      [string:strip(Line,right,$\n)]))
     end.
 
-make_cols(N,Rows) ->
+make_cols(Rows) ->
     [].
 
 load_game_state_test() ->
@@ -70,5 +70,6 @@ load_game_state_test() ->
       {cols, Cols},
       {player, Player} } = reversi:load_game_state("test1.txt"),
     "B" = Player,
-    8 = length(Rows).
+    8 = length(Rows),
+    8 = length(Cols).
       
