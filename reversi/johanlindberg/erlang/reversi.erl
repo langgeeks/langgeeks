@@ -58,5 +58,7 @@ make_cols(N,Rows) ->
 load_game_state_test() ->
     { board,
       {rows, Rows},
-      {cols, Cols} } = reversi:load_game_state("test1.txt").
+      {cols, Cols},
+      {player, Player} } = reversi:load_game_state("test1.txt"),
+    8 = length(Rows).
       
