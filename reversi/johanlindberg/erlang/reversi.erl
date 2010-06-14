@@ -1,7 +1,7 @@
 % reversi kata
 
 -module(reversi).
--export([opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1]).
+-export([opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1, make_cols/1]).
 -include_lib("eunit/include/eunit.hrl").
 
 opponent(Player) ->
@@ -55,14 +55,22 @@ load_game_state(Filename) ->
 
 contents_of_file(Input, Lines) ->
     case io:get_line(Input,"") of
-	eof -> Lines;
+	eof  -> Lines;
 	Line -> contents_of_file(Input,
 				 lists:append(Lines,
 					      [string:strip(Line,right,$\n)]))
     end.
 
 make_cols(Rows) ->
-    [].
+    make_cols(Rows, ["","","","","","","",""]).
+
+make_cols([Row|Rows],Cols) ->
+    F = fun(A,B) -> lists:concat([B,A]) end,
+    C = lists:zipwith(F, Row, Cols),
+    case Rows of
+	[]   -> C;
+	Rows -> make_cols(Rows,C)
+    end.
 
 load_game_state_test() ->
     { board,
