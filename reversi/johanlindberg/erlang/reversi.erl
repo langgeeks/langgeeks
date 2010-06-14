@@ -56,7 +56,9 @@ load_game_state(Filename) ->
 contents_of_file(Input, Lines) ->
     case io:get_line(Input,"") of
 	eof -> Lines;
-	Line -> contents_of_file(Input,[Line|Lines])
+	Line -> contents_of_file(Input,
+				 lists:append(Lines,
+					      [string:strip(Line,right,$\n)]))
     end.
 
 make_cols(N,Rows) ->
