@@ -17,20 +17,26 @@ find_lmoves_test() ->
     [0] = reversi:find_lmoves(".BBBBBBW", "W"),
     [1] = reversi:find_lmoves("..BBBW", "W"),
     
-    [0,3] = reversi:find_lmoves(".BW.BW", "W").
-    
+    [0,3] = reversi:find_lmoves(".BW.BW", "W"),    
+    [0,3,6,9] = reversi:find_lmoves(".BW.BW.BW.BBBBBW","W").    
+
 find_rmoves_test() ->
     [2] = reversi:find_rmoves("WB.", "W"),
     [3] = reversi:find_rmoves("WBB.", "W"),
     [7] = reversi:find_rmoves("WBBBBBB.", "W"),
-    [4] = reversi:find_rmoves("WBBB..", "W").    
+    [4] = reversi:find_rmoves("WBBB..", "W"),
+
+    [2,5,8,16] = reversi:find_rmoves("BW.BW.BW.BWWWWWW.","B").
 
 load_game_state_test() ->
     { board,
       {rows, Rows},
       {cols, Cols},
-      {player, Player} } = reversi:load_game_state("test1.txt"),
+      {player, Player} } = reversi:load_game_state("test.txt"),
     "B" = Player,
     8 = length(Rows),
-    8 = length(Cols).
+    8 = length(Cols),
+    
+    Rows = ["A1111111","2A222222","33A33333","444A4444","5555A555","66666A66","777777A7","8888888A"],
+    Cols = ["A2345678","1A345678","12A45678","123A5678","1234A678","12345A78","123456A8","1234567A"].
       
