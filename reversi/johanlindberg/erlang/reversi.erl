@@ -1,8 +1,11 @@
 % reversi kata
 
 -module(reversi).
--export([opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1, make_cols/1]).
+-export([find_moves/1 ,opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1, make_cols/1]).
 -include_lib("eunit/include/eunit.hrl").
+
+find_moves(Filename) ->
+    true.
 
 opponent(Player) ->
     if
