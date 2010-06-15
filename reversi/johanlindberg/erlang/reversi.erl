@@ -57,7 +57,7 @@ make_cols(Rows) ->
     make_cols(Rows, ["","","","","","","",""]).
 
 make_cols([Row|Rows],Cols) ->
-    F = fun(A,B) -> lists:concat([B,A]) end,
+    F = fun(R,C) -> lists:append(C,[R])  end,
     C = lists:zipwith(F, Row, Cols),
     if Rows == [] -> C;
        true       -> make_cols(Rows,C)
