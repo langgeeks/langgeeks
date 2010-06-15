@@ -4,8 +4,8 @@
 -export([find_moves/1,
 	 
 	 extract_moves/3,
-	 extract_moves_rows/3,
-	 extract_moves_cols/3,
+	 extract_moves_rows/4,
+	 extract_moves_cols/4,
 	 opponent/1,
 	 find_lmoves/2,
 	 find_rmoves/2,
@@ -22,27 +22,27 @@ find_moves(Filename) ->
     extract_moves(Rows,Cols,Player).
 
 extract_moves(Rows,Cols,Player) ->
-    lists:append(extract_moves_rows(Rows,Player,[]),
-		 extract_moves_cols(Cols,Player,[])).
+    lists:append(extract_moves_rows(Rows,Player,[],0),
+		 extract_moves_cols(Cols,Player,[],0)).
 
-extract_moves_rows([Row|Rows],Player,Acc) ->
-    F = fun(C) -> {C,length(Acc)} end,
+extract_moves_rows([Row|Rows],Player,Acc,I) ->
+    F = fun(C) -> {C,I} end,
     Acc1 = lists:append(Acc,
 			lists:append(lists:map(F, find_lmoves(Row,Player)),
 				     lists:map(F, find_rmoves(Row,Player)))),
     if
 	Rows == [] -> Acc1;
-	true       -> extract_moves_rows(Rows,Player,Acc1)
+	true       -> extract_moves_rows(Rows,Player,Acc1,I+1)
     end.    
 
-extract_moves_cols([Col|Cols],Player,Acc) ->
-    F = fun(R) -> {length(Acc),R} end,
+extract_moves_cols([Col|Cols],Player,Acc,I) ->
+    F = fun(R) -> {I,R} end,
     Acc1 = lists:append(Acc,
 			lists:append(lists:map(F, find_lmoves(Col,Player)),
 				     lists:map(F, find_rmoves(Col,Player)))),
     if
 	Cols == [] -> Acc1;
-	true       -> extract_moves_cols(Cols,Player,Acc1)
+	true       -> extract_moves_cols(Cols,Player,Acc1,I+1)
     end.    
 
 opponent(Player) ->
