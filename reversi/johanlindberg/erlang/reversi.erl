@@ -1,11 +1,49 @@
 % reversi kata
 
 -module(reversi).
--export([find_moves/1 ,opponent/1, find_lmoves/2, find_rmoves/2, load_game_state/1, make_cols/1]).
+-export([find_moves/1,
+	 
+	 extract_moves/3,
+	 extract_moves_rows/3,
+	 extract_moves_cols/3,
+	 opponent/1,
+	 find_lmoves/2,
+	 find_rmoves/2,
+	 load_game_state/1,
+	 make_cols/1]).
+
 -include_lib("eunit/include/eunit.hrl").
 
 find_moves(Filename) ->
-    true.
+    {board,
+     {rows, Rows},
+     {cols, Cols},
+     {player, Player}} = reversi:load_game_state(Filename),
+    extract_moves(Rows,Cols,Player).
+
+extract_moves(Rows,Cols,Player) ->
+    lists:append(extract_moves_rows(Rows,Player,[]),
+		 extract_moves_cols(Cols,Player,[])).
+
+extract_moves_rows([Row|Rows],Player,Acc) ->
+    F = fun(C) -> {C,length(Acc)} end,
+    Acc1 = lists:append(Acc,
+			lists:append(lists:map(F, find_lmoves(Row,Player)),
+				     lists:map(F, find_rmoves(Row,Player)))),
+    if
+	Rows == [] -> Acc1;
+	true       -> extract_moves_rows(Rows,Player,Acc1)
+    end.    
+
+extract_moves_cols([Col|Cols],Player,Acc) ->
+    F = fun(R) -> {length(Acc),R} end,
+    Acc1 = lists:append(Acc,
+			lists:append(lists:map(F, find_lmoves(Col,Player)),
+				     lists:map(F, find_rmoves(Col,Player)))),
+    if
+	Cols == [] -> Acc1;
+	true       -> extract_moves_cols(Cols,Player,Acc1)
+    end.    
 
 opponent(Player) ->
     if
@@ -20,10 +58,12 @@ extract_lpositions([[{P,_}]|Pos], Acc) ->
     end.
 
 find_lmoves(Board, Player) ->
-    {_,Positions} = re:run(Board,
-			   string:join(["\\.",opponent(Player),"+",Player],""),
-			   [global]),
-    extract_lpositions(Positions, []).
+    case re:run(Board,
+		string:join(["\\.",opponent(Player),"+",Player],""),
+		[global]) of
+	nomatch        -> [];
+	{_, Positions} -> extract_lpositions(Positions, [])
+    end.
 
 extract_rpositions([[{P,L}]|Pos], Acc) ->
     Acc1 = lists:append(Acc, [P + L - 1]),
@@ -32,10 +72,12 @@ extract_rpositions([[{P,L}]|Pos], Acc) ->
     end.
 
 find_rmoves(Board,Player) ->
-    {_,Positions} = re:run(Board,
-			   string:join([Player,opponent(Player),"+\\."],""),
-			   [global]),
-    extract_rpositions(Positions, []).
+    case re:run(Board,
+		string:join([Player,opponent(Player),"+\\."],""),
+		[global]) of
+	nomatch       -> [];
+	{_,Positions} -> extract_rpositions(Positions, [])
+    end.
     
 load_game_state(Filename) ->
     {ok,Input} = file:open(Filename,[read]),

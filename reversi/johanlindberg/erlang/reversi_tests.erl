@@ -41,4 +41,9 @@ load_game_state_test() ->
     Cols = ["A2345678","1A345678","12A45678","123A5678","1234A678","12345A78","123456A8","1234567A"].
       
 find_moves_test() ->
+    [{3,0},{3,1},{3,2},{3,3}] = reversi:extract_moves_rows([".BW.", ".BW.", ".BW.", ".BW."],"B",[]),
+    []                        = reversi:extract_moves_cols(["....", "BBBB", "WWWW", "...."],"B",[]),
+    [{3,0},{3,1},{3,2},{3,3}] = reversi:extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
+						      ["....", "BBBB", "WWWW", "...."], "B"),
+
     [{2,4}, {3,5}, {4,2}, {5,3}] = reversi:find_moves("test1.txt").
