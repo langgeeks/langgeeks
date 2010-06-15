@@ -10,17 +10,29 @@ opponent(Player) ->
 	true          -> "B"
     end.
 
-find_lmoves(Board,Player) ->
-    {_,[{Pos,_}]} = re:run(Board,
+extract_lpositions([[{P,_}]|Pos], Acc) ->
+    Acc1 = lists:append(Acc, [P]),
+    if Pos == [] -> Acc1;
+       true      -> extract_lpositions(Pos, Acc1)
+    end.
+
+find_lmoves(Board, Player) ->
+    {_,Positions} = re:run(Board,
 			   string:join(["\\.",opponent(Player),"+",Player],""),
-			   []),
-    Pos.
+			   [global]),
+    extract_lpositions(Positions, []).
+
+extract_rpositions([[{P,L}]|Pos], Acc) ->
+    Acc1 = lists:append(Acc, [P + L - 1]),
+    if Pos == [] -> Acc1;
+       true      -> extract_rpositions(Pos, Acc1)
+    end.
 
 find_rmoves(Board,Player) ->
-    {_,[{_,Pos}]} = re:run(Board,
+    {_,Positions} = re:run(Board,
 			   string:join([Player,opponent(Player),"+\\."],""),
-			   []),
-    Pos - 1.
+			   [global]),
+    extract_rpositions(Positions, []).
     
 load_game_state(Filename) ->
     {ok,Input} = file:open(Filename,[read]),
