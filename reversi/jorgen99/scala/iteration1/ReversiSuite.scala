@@ -45,14 +45,14 @@ class ReversiSuite extends AssertionsForJUnit {
   def indexOfFirstNonEmptySquareIsThree() {
     val row = board.createRow("..WWB...")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(3, index)
+    assertEquals(2, index)
   }
 
   @Test
   def indexOfFirstNonEmptySquareIsFour() {
     val row = board.createRow("...WWB..")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(4, index)
+    assertEquals(3, index)
   }
 
   @Test
@@ -66,14 +66,14 @@ class ReversiSuite extends AssertionsForJUnit {
   def indexOfFirstNonEmptySquareIsOne() {
     val row = board.createRow("W.......")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(1, index)
+    assertEquals(0, index)
   }
 
   @Test
   def indexOfFirstNonEmptySquareIsEight() {
     val row = board.createRow(".......W")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(8, index)
+    assertEquals(7, index)
   }
 
   @Test
@@ -93,7 +93,7 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  def noPossibleMovesForBlackWhenFirstSquareIsBlack() {
+  def noPossibleMovesForBlackWhenFirstNonEmptySquareIsBlack() {
     val row = board.createRow("..B....")
     val expected = board.createRow("..B....")
     val evaluated = board.evaluate(row)
