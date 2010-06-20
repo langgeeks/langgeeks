@@ -108,5 +108,25 @@ class ReversiSuite extends AssertionsForJUnit {
     assert(expected.toList == evaluated.toList)
   }
 
+  @Test
+  def anyOfColorFromIndexReturnsTrue() {
+    val row = board.createRow("...WB...")
+    assertTrue(board.anyOfColorFromFirstNonEmpy(row, Black))
+  }
+
+  @Test
+  def anyOfColorFromIndexReturnsFalse() {
+    val row = board.createRow("...WWW..")
+    assertFalse(board.anyOfColorFromFirstNonEmpy(row, Black))
+  }
+
+  @Test
+  def markPossibleMoveForColor() {
+    val row = board.createRow("...WB...")
+    val expected = board.createRow("..OWB...")
+    val evaluated = board.markPossibleMoveForColor(row, Black)
+    assert(expected.toList == evaluated.toList)
+  }
+
 
 }
