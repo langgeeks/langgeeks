@@ -17,10 +17,10 @@ class ReversiSuite extends AssertionsForJUnit {
   @Test
   def startBoardIsSetupCorrectly() {
     val startBoard = board.startGame
-    assertEquals(Black, startBoard(3)(3))
-    assertEquals(White, startBoard(3)(4))
-    assertEquals(White, startBoard(4)(3))
-    assertEquals(Black, startBoard(4)(4))
+    assertEquals(Black, board.squares(3)(3))
+    assertEquals(White, board.squares(3)(4))
+    assertEquals(White, board.squares(4)(3))
+    assertEquals(Black, board.squares(4)(4))
   }
 
   @Test

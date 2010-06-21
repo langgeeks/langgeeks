@@ -2,8 +2,10 @@ import scala.collection.mutable.ArrayBuffer
 import Square._
 
 class Board {
-  def startGame(): Array[Array[Square.Value]] = {
-    Array(
+  var squares:Array[Array[Square.Value]] = _
+
+  def startGame() = {
+    squares = Array(
       createRow("........"),
       createRow("........"),
       createRow("........"),
@@ -21,7 +23,7 @@ class Board {
   def evaluate(row: Array[Square.Value]): Array[Square.Value] = {
     val firstNonempty = indexOfFirstNonEmptySquare(row)
     if(firstNonempty == -1) return row
-    if(firstNonempty == 6 || firstNonempty == 7) return row
+    if(firstNonempty == 7) return row
     if(row(firstNonempty) == Black) return row
     if(anyOfColorFromFirstNonEmpy(row, Black))
       return markPossibleMoveForColor(row, Black)
