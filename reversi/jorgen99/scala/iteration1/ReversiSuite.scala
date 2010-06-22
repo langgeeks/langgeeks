@@ -11,12 +11,12 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Before
   def setup() {
-    board = new Board()
+    board = new Board
+    board.startGame
   }
 
   @Test
   def startBoardIsSetupCorrectly() {
-    val startBoard = board.startGame
     assertEquals(Black, board.squares(3)(3))
     assertEquals(White, board.squares(3)(4))
     assertEquals(White, board.squares(4)(3))
@@ -78,34 +78,36 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Test
   def onlyEmptyRowsHaveNoPossibleMoves() {
-    val row = board.createRow("........")
     val expected = board.createRow("........")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assert(expected.toList == board.squares(0).toList)
   }
 
   @Test
   def noPossibleMovesForBlackWithOnlyOnePieceOnTheEighthSquare() {
     val row = board.createRow(".......W")
+    board.squares(0) = row
     val expected = board.createRow(".......W")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assert(expected.toList == board.squares(0).toList)
   }
 
   @Test
   def noPossibleMovesForBlackWhenFirstNonEmptySquareIsBlack() {
     val row = board.createRow("..B....")
+    board.squares(0) = row
     val expected = board.createRow("..B....")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assert(expected.toList == board.squares(0).toList)
   }
 
   @Test
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
     val row = board.createRow("...WB...")
+    board.squares(0) = row
     val expected = board.createRow("..OWB...")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assert(expected.toList == board.squares(0).toList)
   }
 
   @Test
@@ -123,9 +125,10 @@ class ReversiSuite extends AssertionsForJUnit {
   @Test
   def markPossibleMoveForColor() {
     val row = board.createRow("...WB...")
+    board.squares(0) = row
     val expected = board.createRow("..OWB...")
-    val evaluated = board.markPossibleMoveForColor(row, Black)
-    assert(expected.toList == evaluated.toList)
+    board.markPossibleMoveForColor(0, Black)
+    assert(expected.toList == board.squares(0).toList)
   }
 
 
