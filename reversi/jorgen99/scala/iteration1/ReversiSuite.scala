@@ -113,13 +113,15 @@ class ReversiSuite extends AssertionsForJUnit {
   @Test
   def anyOfColorFromIndexReturnsTrue() {
     val row = board.createRow("...WB...")
-    assertTrue(board.anyOfColorFromFirstNonEmpy(row, Black))
+    board.squares(0) = row
+    assertTrue(board.anyOfColorFromFirstNonEmpy(0, Black))
   }
 
   @Test
   def anyOfColorFromIndexReturnsFalse() {
     val row = board.createRow("...WWW..")
-    assertFalse(board.anyOfColorFromFirstNonEmpy(row, Black))
+    board.squares(0) = row
+    assertFalse(board.anyOfColorFromFirstNonEmpy(0, Black))
   }
 
   @Test

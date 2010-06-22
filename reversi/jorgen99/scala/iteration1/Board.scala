@@ -30,15 +30,15 @@ class Board {
     if(firstNonempty == -1) return row
     if(firstNonempty == 7) return row
     if(row(firstNonempty) == Black) return row
-    if(anyOfColorFromFirstNonEmpy(row, Black)) {
+    if(anyOfColorFromFirstNonEmpy(rowIndex, Black)) {
       markPossibleMoveForColor(rowIndex, Black)
       return 
     }
     throw new RuntimeException
   }
 
-  def anyOfColorFromFirstNonEmpy(row: Array[Square.Value], color: Square.Value): Boolean = {
-    row.drop(indexOfFirstNonEmptySquare(row)).exists(_ == color)
+  def anyOfColorFromFirstNonEmpy(rowIndex: Int, color: Square.Value): Boolean = {
+    squares(rowIndex).drop(indexOfFirstNonEmptySquare(rowIndex)).exists(_ == color)
   }
   
   def markPossibleMoveForColor(rowIndex: Int, color: Square.Value) = {
