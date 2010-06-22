@@ -1,4 +1,3 @@
-import scala.collection.mutable.ArrayBuffer
 import Square._
 
 class Board {
