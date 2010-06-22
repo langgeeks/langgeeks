@@ -80,7 +80,7 @@ class ReversiSuite extends AssertionsForJUnit {
   def onlyEmptyRowsHaveNoPossibleMoves() {
     val expected = board.createRow("........")
     board.evaluate()
-    assert(expected.toList == board.squares(0).toList)
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
@@ -89,7 +89,7 @@ class ReversiSuite extends AssertionsForJUnit {
     board.squares(0) = row
     val expected = board.createRow(".......W")
     board.evaluate()
-    assert(expected.toList == board.squares(0).toList)
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
@@ -98,7 +98,7 @@ class ReversiSuite extends AssertionsForJUnit {
     board.squares(0) = row
     val expected = board.createRow("..B....")
     board.evaluate()
-    assert(expected.toList == board.squares(0).toList)
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
@@ -107,7 +107,7 @@ class ReversiSuite extends AssertionsForJUnit {
     board.squares(0) = row
     val expected = board.createRow("..OWB...")
     board.evaluate()
-    assert(expected.toList == board.squares(0).toList)
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
@@ -130,8 +130,16 @@ class ReversiSuite extends AssertionsForJUnit {
     board.squares(0) = row
     val expected = board.createRow("..OWB...")
     board.markPossibleMoveForColor(0, Black)
-    assert(expected.toList == board.squares(0).toList)
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
+  @Test
+  def blackHavePossibleMovesToTheLeftAndToTheRight() {
+    val row = board.createRow("...WBW..")
+    board.squares(0) = row
+    val expected = board.createRow("..OWBWO.")
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
+  }
 
 }
