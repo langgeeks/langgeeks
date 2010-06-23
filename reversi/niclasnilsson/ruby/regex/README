@@ -1,0 +1,7 @@
+Run the specs (from this directory) like this to get nice output:
+
+$ spec spec --format=nested --color --diff=c
+
+
+
+
