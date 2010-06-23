@@ -15,5 +15,8 @@ class Reversi
     @board
   end
 
-  
+  def views_from_position(row, col)
+
+  end
+
 end
