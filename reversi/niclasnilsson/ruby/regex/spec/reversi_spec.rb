@@ -67,6 +67,8 @@ describe Reversi do
 
 
   it "should know what the board looks like in all directions from a given position" do
+    pending
+
     board = strip "
       W.......
       .WB.W...
