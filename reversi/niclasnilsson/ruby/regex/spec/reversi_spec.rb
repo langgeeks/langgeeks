@@ -57,8 +57,6 @@ describe Reversi do
 
   }.each do |board, legal_moves|
 
-    board = strip(board)
-    legal_moves = strip(legal_moves)
 
     it "
     A board like this:
@@ -66,6 +64,9 @@ describe Reversi do
     should result in these legal moves: 
       #{legal_moves}" do 
    
+      board = strip(board)
+      legal_moves = strip(legal_moves)
+      
       board.should == legal_moves 
     end
   end
