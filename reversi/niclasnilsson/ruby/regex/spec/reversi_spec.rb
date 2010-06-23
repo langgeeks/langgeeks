@@ -1,13 +1,6 @@
 require 'reversi'
 require 'facets'
 
-def strip(board)
-  board.lines.
-    map { |line| line.strip }.
-    reject { |line| line.blank? }.
-    join("\n")
-end
-
 describe Reversi do
 
   { "
@@ -67,7 +60,7 @@ describe Reversi do
       board = strip(board)
       legal_moves = strip(legal_moves)
       
-      board.should == legal_moves 
+      Reversi.new(board).legal_moves.should == legal_moves 
     end
   end
 end
