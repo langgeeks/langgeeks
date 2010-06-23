@@ -4,7 +4,6 @@ $ spec spec --format=nested --color --diff=c
 
 results in output:
 
-
     A board like this:
       
       ........
@@ -27,8 +26,5 @@ results in output:
       ...0....
       ........
       ........'
-
-
-
 
 
