@@ -19,6 +19,13 @@ class Reversi
 
   end
 
+  def view_in_direction(row, col, direction)
+    row_step, col_step = steps(direction)
+    
+    return view = "" if @board[row][col].nil?
+    @board[row][col] + view_in_direction(row + row_step, col + col_step, direction) 
+  end
+
   def [](row, col)
     @board[row][col]
   end
@@ -31,4 +38,18 @@ class Reversi
       map { |row| row.split("") }
   end
 
+  def steps(direction)
+    @steps ||= {
+      :E  => [ 0,  1],
+      :SE => [ 1,  1],
+      :S  => [ 1,  0],
+      :SW => [ 1, -1],
+      :W  => [ 0, -1],
+      :NW => [-1, -1],
+      :N  => [-1,  0],
+      :NE => [-1,  1]
+    }
+
+    @steps[direction]
+  end 
 end

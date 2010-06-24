@@ -3,6 +3,23 @@ require 'facets'
 
 describe Reversi do
 
+  before do
+    @board = "
+      W.......
+      .WB.W...
+      ..BB.B..
+      ..BWBW..
+      ..BBW...
+      .BBBWB..
+      ....W.B.
+      ........
+      W
+    "
+
+    @reversi = Reversi.new(@board)
+  end 
+    
+
   { "
       ........
       ........
@@ -92,6 +109,10 @@ describe Reversi do
       :NE => ".."
     }
 
+  end
+
+  it "should know the view in a certain direction" do
+    @reversi.view_in_direction(1, 3, :E).should == ".W..."
   end
 
   it "should know the coin on each row and col" do
