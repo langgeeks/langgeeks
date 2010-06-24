@@ -84,8 +84,6 @@ describe Reversi do
 
 
   it "should know what the board looks like in all directions from a given position" do
-    pending
-
     board = strip "
       W.......
       .WB.W...
@@ -112,7 +110,7 @@ describe Reversi do
   end
 
   it "should know the view in a certain direction" do
-    @reversi.view_in_direction(1, 3, :E).should == ".W..."
+    @reversi.view_in_direction(1, 3,  :E).should == ".W..."
   end
 
   it "should know the coin on each row and col" do

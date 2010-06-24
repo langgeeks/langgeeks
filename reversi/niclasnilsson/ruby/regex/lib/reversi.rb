@@ -16,13 +16,13 @@ class Reversi
   end
 
   def views_from_position(row, col)
-
+    directions.map { |direction| [ direction, view_in_direction(row, col, direction) ] }.to_h
   end
 
   def view_in_direction(row, col, direction)
     row_step, col_step = steps(direction)
     
-    return view = "" if @board[row][col].nil?
+    return view = "" if @board[row].nil? || @board[row][col].nil?
     @board[row][col] + view_in_direction(row + row_step, col + col_step, direction) 
   end
 
@@ -51,5 +51,9 @@ class Reversi
     }
 
     @steps[direction]
+  end
+
+  def directions
+    [:E, :SE, :S, :SW, :W, :NW, :N, :NE]
   end 
 end
