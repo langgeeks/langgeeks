@@ -21,8 +21,9 @@ class Reversi
 
   def view_in_direction(row, col, direction)
     row_step, col_step = steps(direction)
-    
-    return view = "" if @board[row].nil? || @board[row][col].nil?
+   
+    return "" if row < 0 || col < 0 
+    return "" if @board[row].nil? || @board[row][col].nil?
     @board[row][col] + view_in_direction(row + row_step, col + col_step, direction) 
   end
 
