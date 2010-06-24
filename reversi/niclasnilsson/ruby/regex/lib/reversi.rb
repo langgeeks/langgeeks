@@ -22,7 +22,7 @@ class Reversi
     board_to_s(board)
   end
 
-  def views_from_position(row, col)
+  def views_and_directions(row, col)
     directions.map { |direction| [ direction, view_in_direction(row, col, direction) ] }.to_h
   end
 
@@ -85,7 +85,7 @@ class Reversi
 
   def legal_move(row, col)
     pattern = /^\.#{opponent}+#{player}/
-    views = views_from_position(row, col).values
+    views = views_and_directions(row, col).values
        
     views.any? { |view| view =~ pattern }
   end  

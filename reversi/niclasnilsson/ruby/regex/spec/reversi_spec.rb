@@ -95,7 +95,7 @@ describe Reversi do
       W
     "
 
-    Reversi.new(board).views_from_position(1, 3).should == {
+    Reversi.new(board).views_and_directions(1, 3).should == {
       :E  => ".W...",
       :SE => "..W..",
       :S  => ".BWBB..",
