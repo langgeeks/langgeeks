@@ -72,6 +72,34 @@ legal_move(R,C,Player) :-
     R1 is R - 1,
     uchain(R1,C,Player).
 
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C + 1,
+    R1 is R + 1,
+    drchain(R1,C1,Player).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C + 1,
+    R1 is R - 1,
+    urchain(R1,C1,Player).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C - 1,
+    R1 is R + 1,
+    dlchain(R1,C1,Player).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C - 1,
+    R1 is R - 1,
+    ulchain(R1,C1,Player).
+
 % an (r)chain consists of one
 % opponent disc and one adjacent
 % player disc or one opponent
@@ -146,6 +174,86 @@ uchain(R,C,Player) :-
 
     R1 is R - 1,
     uchain(R1,C,Player).
+
+% downwards-right chain
+
+drchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C + 1,
+    R1 is R + 1,
+    position(Player,R1,C1).
+
+drchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C + 1,
+    R1 is R + 1,
+    drchain(R1,C1,Player).
+
+% upwards-right chain
+
+urchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C + 1,
+    R1 is R - 1,
+    position(Player,R1,C1).
+
+urchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C + 1,
+    R1 is R - 1,
+    urchain(R1,C1,Player).
+
+% downwards-left chain
+
+dlchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C - 1,
+    R1 is R + 1,
+    position(Player,R1,C1).
+
+dlchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C - 1,
+    R1 is R + 1,
+    dlchain(R1,C1,Player).
+
+% upwards-left chain
+
+ulchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C - 1,
+    R1 is R - 1,
+    position(Player,R1,C1).
+
+ulchain(R,C,Player) :-
+    position(Opponent,R,C),
+    Opponent \= '.',
+    Opponent \= Player,
+
+    C1 is C - 1,
+    R1 is R - 1,
+    ulchain(R1,C1,Player).
 
 % find moves, prints all legal moves
 % given a text file containing game
