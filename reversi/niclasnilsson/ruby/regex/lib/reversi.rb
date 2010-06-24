@@ -9,10 +9,24 @@ end
 class Reversi
   def initialize(board)
     @board = tokenize_board(board)
+    @player = board.split.last
   end
 
   def legal_moves
-    nil 
+    board = @board.clone
+    pattern = /^\.#{opponent}+#{player}/
+
+    (0..7).each do |row|
+      (0..7).each do |col|
+        views = views_from_position(row, col).values
+       
+        if views.any? { |view| view =~ pattern }
+          board[row][col] = "0"
+        end         
+      end
+    end
+
+    board_to_s(board)
   end
 
   def views_from_position(row, col)
@@ -39,6 +53,11 @@ class Reversi
       map { |row| row.split("") }
   end
 
+  def board_to_s(board)
+    board.map { |row| row.join }.join("\n")
+  end
+    
+
   def steps(direction)
     @steps ||= {
       :E  => [ 0,  1],
@@ -57,4 +76,12 @@ class Reversi
   def directions
     [:E, :SE, :S, :SW, :W, :NW, :N, :NE]
   end 
+
+  def player 
+    @player
+  end
+
+  def opponent
+    @player == "W" ? "B" : "W"
+  end
 end

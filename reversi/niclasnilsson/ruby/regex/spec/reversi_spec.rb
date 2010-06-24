@@ -74,7 +74,6 @@ describe Reversi do
     should result in these legal moves: 
       #{legal_moves}" do 
    
-      pending 
       board = strip(board)
       legal_moves = strip(legal_moves)
       
