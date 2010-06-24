@@ -60,7 +60,7 @@ class Reversi
   end
 
   def directions
-    [:E, :SE, :S, :SW, :W, :NW, :N, :NE]
+    steps.keys
   end 
 
   def views(row, col)
