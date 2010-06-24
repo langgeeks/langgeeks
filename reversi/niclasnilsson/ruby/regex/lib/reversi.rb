@@ -27,7 +27,7 @@ class Reversi
   end
 
   def view_in_direction(row, col, direction)
-    row_step, col_step = steps(direction)
+    row_step, col_step = steps_in(direction)
    
     return "" if row < 0 || col < 0 
     return "" if @board[row].nil? || @board[row][col].nil?
@@ -47,7 +47,7 @@ class Reversi
   end
     
 
-  def steps(direction)
+  def steps_in(direction)
     @steps ||= {
       :E  => [ 0,  1],
       :SE => [ 1,  1],
