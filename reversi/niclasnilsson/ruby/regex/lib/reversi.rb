@@ -45,10 +45,9 @@ class Reversi
   def board_to_s(board)
     board.map { |row| row.join }.join("\n")
   end
-    
-
-  def steps_in(direction)
-    @steps ||= {
+   
+  def steps 
+    {
       :E  => [ 0,  1],
       :SE => [ 1,  1],
       :S  => [ 1,  0],
@@ -58,8 +57,10 @@ class Reversi
       :N  => [-1,  0],
       :NE => [-1,  1]
     }
+  end
 
-    @steps[direction]
+  def steps_in(direction)
+    steps[direction]
   end
 
   def directions
