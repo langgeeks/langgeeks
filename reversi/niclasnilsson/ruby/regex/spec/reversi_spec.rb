@@ -112,32 +112,5 @@ describe Reversi do
     @reversi.view_in_direction(1, 3,  :E).should == ".W..."
     @reversi.view_in_direction(1, 3, :NW).should == ".."
   end
-
-  it "should know the coin on each row and col" do
-    board = strip "
-      W.......
-      .WB.W...
-      ..BB.B..
-      ..BWBW..
-      ..BBW...
-      .BBBWB..
-      ....W.B.
-      ........
-      W
-    "
-    
-    reversi = Reversi.new(board)
-    reversi[0, 0].should == "W"
-    reversi[0, 1].should == "."
-    reversi[1, 0].should == "."
-    reversi[1, 1].should == "W"
-
-    reversi[6, 6].should == "B"
-    reversi[6, 7].should == "."
-    reversi[7, 6].should == "."
-    reversi[7, 7].should == "."
-  end
-
-
 end
 

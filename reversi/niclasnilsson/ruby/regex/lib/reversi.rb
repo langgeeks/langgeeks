@@ -34,10 +34,6 @@ class Reversi
     @board[row][col] + view_in_direction(row + row_step, col + col_step, direction) 
   end
 
-  def [](row, col)
-    @board[row][col]
-  end
-
   private
 
   def tokenize_board(board_str)
