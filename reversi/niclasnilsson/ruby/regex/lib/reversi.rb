@@ -70,6 +70,10 @@ class Reversi
     [:E, :SE, :S, :SW, :W, :NW, :N, :NE]
   end 
 
+  def views(row, col)
+    views_and_directions(row, col).values
+  end
+  
   def player 
     @player
   end
@@ -85,9 +89,7 @@ class Reversi
 
   def legal_move(row, col)
     pattern = /^\.#{opponent}+#{player}/
-    views = views_and_directions(row, col).values
-       
-    views.any? { |view| view =~ pattern }
+    views(row, col).any? { |view| view =~ pattern }
   end  
 
 end
