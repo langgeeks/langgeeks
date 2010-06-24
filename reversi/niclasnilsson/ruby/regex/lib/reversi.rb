@@ -14,14 +14,9 @@ class Reversi
 
   def legal_moves
     board = @board.clone
-    pattern = /^\.#{opponent}+#{player}/
 
     all_positions.each do |row, col|
-      views = views_from_position(row, col).values
-       
-      if views.any? { |view| view =~ pattern }
-        board[row][col] = "0"
-      end         
+      board[row][col] = "0" if legal_move(row, col)
     end
 
     board_to_s(board)
@@ -87,4 +82,14 @@ class Reversi
     range = (0..7).to_a
     range.product(range)
   end
+
+  def legal_move(row, col)
+    pattern = /^\.#{opponent}+#{player}/
+    views = views_from_position(row, col).values
+       
+    if views.any? { |view| view =~ pattern }
+      @board[row][col] = "0"
+    end         
+  end  
+
 end
