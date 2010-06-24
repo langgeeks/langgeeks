@@ -27,7 +27,7 @@ class Reversi
   end
 
   def view_in_direction(row, col, direction)
-    row_step, col_step = steps_in(direction)
+    row_step, col_step = steps[direction]
    
     return "" if row < 0 || col < 0 
     return "" if @board[row].nil? || @board[row][col].nil?
@@ -57,10 +57,6 @@ class Reversi
       :N  => [-1,  0],
       :NE => [-1,  1]
     }
-  end
-
-  def steps_in(direction)
-    steps[direction]
   end
 
   def directions
