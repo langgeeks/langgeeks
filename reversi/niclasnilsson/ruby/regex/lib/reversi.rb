@@ -8,15 +8,27 @@ end
 
 class Reversi
   def initialize(board)
-    @board = strip(board)
+    @board = tokenize_board(board)
   end
 
   def legal_moves
-    @board
+    nil 
   end
 
   def views_from_position(row, col)
 
+  end
+
+  def [](row, col)
+    @board[row][col]
+  end
+
+  private
+
+  def tokenize_board(board_str)
+    strip(board_str).
+      split[0..7].
+      map { |row| row.split("") }
   end
 
 end
