@@ -87,9 +87,7 @@ class Reversi
     pattern = /^\.#{opponent}+#{player}/
     views = views_from_position(row, col).values
        
-    if views.any? { |view| view =~ pattern }
-      @board[row][col] = "0"
-    end         
+    views.any? { |view| view =~ pattern }
   end  
 
 end
