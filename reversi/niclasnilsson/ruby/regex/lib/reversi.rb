@@ -16,14 +16,12 @@ class Reversi
     board = @board.clone
     pattern = /^\.#{opponent}+#{player}/
 
-    (0..7).each do |row|
-      (0..7).each do |col|
-        views = views_from_position(row, col).values
+    all_positions.each do |row, col|
+      views = views_from_position(row, col).values
        
-        if views.any? { |view| view =~ pattern }
-          board[row][col] = "0"
-        end         
-      end
+      if views.any? { |view| view =~ pattern }
+        board[row][col] = "0"
+      end         
     end
 
     board_to_s(board)
@@ -83,5 +81,10 @@ class Reversi
 
   def opponent
     @player == "W" ? "B" : "W"
+  end
+
+  def all_positions
+    range = (0..7).to_a
+    range.product(range)
   end
 end
