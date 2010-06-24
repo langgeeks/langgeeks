@@ -112,17 +112,11 @@ chain(R,C,Player,RD,CD) :-
 
     C1 is C + CD,
     R1 is R + RD,
-    position(Player,R1,C1).
 
-chain(R,C,Player,RD,CD) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
+    !,
 
-    C1 is C + CD,
-    R1 is R + RD,
-    chain(R1,C1,Player,RD,CD).
-
+    ( position(Player,R1,C1) ;
+      chain(R1,C1,Player,RD,CD) ).
 
 % find moves, prints all legal moves
 % given a text file containing game
