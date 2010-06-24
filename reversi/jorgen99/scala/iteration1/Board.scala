@@ -1,9 +1,10 @@
-import scala.collection.mutable.ArrayBuffer
 import Square._
 
 class Board {
-  def startGame(): Array[Array[Square.Value]] = {
-    Array(
+  var squares:Array[Array[Square.Value]] = _
+
+  def startGame() = {
+    squares = Array(
       createRow("........"),
       createRow("........"),
       createRow("........"),
@@ -18,12 +19,35 @@ class Board {
     row.map { Square.parse(_) }.toArray
   }
 
-  def evaluate(row: Array[Square.Value]): Array[Square.Value] = {
+  def evaluate() {
+    for (i <- 0 until squares.size)
+      evaluate(i)
+  }
+
+  def evaluate(rowIndex: Int) {
+    val row = squares(rowIndex)
     val firstNonempty = indexOfFirstNonEmptySquare(row)
     if(firstNonempty == -1) return row
-    if(firstNonempty == 8) return row
-    if(row(firstNonempty - 1) == Black) return row
+    if(firstNonempty == 7) return row
+    if(row(firstNonempty) == Black) return row
+    if(anyOfColorFromFirstNonEmpy(rowIndex, Black)) {
+      markPossibleMoveForColor(rowIndex, Black)
+      return 
+    }
     throw new RuntimeException
+  }
+
+  def anyOfColorFromFirstNonEmpy(rowIndex: Int, color: Square.Value): Boolean = {
+    squares(rowIndex).drop(indexOfFirstNonEmptySquare(rowIndex)).exists(_ == color)
+  }
+  
+  def markPossibleMoveForColor(rowIndex: Int, color: Square.Value) = {
+    val nonEmpty = indexOfFirstNonEmptySquare(rowIndex)
+    squares(rowIndex)(nonEmpty - 1) = Possible
+  }
+
+  def indexOfFirstNonEmptySquare(rowIndex: Int): Int = {
+    indexOfFirstNonEmptySquare(squares(rowIndex), 0)
   }
 
   def indexOfFirstNonEmptySquare(row: Array[Square.Value]): Int = {
@@ -34,7 +58,7 @@ class Board {
     if (row.size == startIndex)
       return -1
     if (row(startIndex) != Empty)
-      return startIndex + 1
+      return startIndex
     else
       return indexOfFirstNonEmptySquare(row, startIndex + 1)
   }

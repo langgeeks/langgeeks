@@ -11,16 +11,16 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Before
   def setup() {
-    board = new Board()
+    board = new Board
+    board.startGame
   }
 
   @Test
   def startBoardIsSetupCorrectly() {
-    val startBoard = board.startGame
-    assertEquals(Black, startBoard(3)(3))
-    assertEquals(White, startBoard(3)(4))
-    assertEquals(White, startBoard(4)(3))
-    assertEquals(Black, startBoard(4)(4))
+    assertEquals(Black, board.squares(3)(3))
+    assertEquals(White, board.squares(3)(4))
+    assertEquals(White, board.squares(4)(3))
+    assertEquals(Black, board.squares(4)(4))
   }
 
   @Test
@@ -45,14 +45,14 @@ class ReversiSuite extends AssertionsForJUnit {
   def indexOfFirstNonEmptySquareIsThree() {
     val row = board.createRow("..WWB...")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(3, index)
+    assertEquals(2, index)
   }
 
   @Test
   def indexOfFirstNonEmptySquareIsFour() {
     val row = board.createRow("...WWB..")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(4, index)
+    assertEquals(3, index)
   }
 
   @Test
@@ -66,47 +66,80 @@ class ReversiSuite extends AssertionsForJUnit {
   def indexOfFirstNonEmptySquareIsOne() {
     val row = board.createRow("W.......")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(1, index)
+    assertEquals(0, index)
   }
 
   @Test
   def indexOfFirstNonEmptySquareIsEight() {
     val row = board.createRow(".......W")
     val index = board.indexOfFirstNonEmptySquare(row)
-    assertEquals(8, index)
+    assertEquals(7, index)
   }
 
   @Test
   def onlyEmptyRowsHaveNoPossibleMoves() {
-    val row = board.createRow("........")
     val expected = board.createRow("........")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   def noPossibleMovesForBlackWithOnlyOnePieceOnTheEighthSquare() {
     val row = board.createRow(".......W")
+    board.squares(0) = row
     val expected = board.createRow(".......W")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
-  def noPossibleMovesForBlackWhenFirstSquareIsBlack() {
+  def noPossibleMovesForBlackWhenFirstNonEmptySquareIsBlack() {
     val row = board.createRow("..B....")
+    board.squares(0) = row
     val expected = board.createRow("..B....")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
     val row = board.createRow("...WB...")
+    board.squares(0) = row
     val expected = board.createRow("..OWB...")
-    val evaluated = board.evaluate(row)
-    assert(expected.toList == evaluated.toList)
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
+  @Test
+  def anyOfColorFromIndexReturnsTrue() {
+    val row = board.createRow("...WB...")
+    board.squares(0) = row
+    assertTrue(board.anyOfColorFromFirstNonEmpy(0, Black))
+  }
+
+  @Test
+  def anyOfColorFromIndexReturnsFalse() {
+    val row = board.createRow("...WWW..")
+    board.squares(0) = row
+    assertFalse(board.anyOfColorFromFirstNonEmpy(0, Black))
+  }
+
+  @Test
+  def markPossibleMoveForColor() {
+    val row = board.createRow("...WB...")
+    board.squares(0) = row
+    val expected = board.createRow("..OWB...")
+    board.markPossibleMoveForColor(0, Black)
+    assertEquals(expected.mkString, board.squares(0).mkString)
+  }
+
+  @Test
+  def blackHavePossibleMovesToTheLeftAndToTheRight() {
+    val row = board.createRow("...WBW..")
+    board.squares(0) = row
+    val expected = board.createRow("..OWBWO.")
+    board.evaluate()
+    assertEquals(expected.mkString, board.squares(0).mkString)
+  }
 
 }
