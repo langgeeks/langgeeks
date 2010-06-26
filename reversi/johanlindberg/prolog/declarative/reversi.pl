@@ -52,100 +52,71 @@ legal_move(R,C,Player) :-
     position('.',R,C),
 
     C1 is C + 1,
-    rchain(R,C1,Player).
+    chain(R,C1,Player,0,1).
 
 legal_move(R,C,Player) :-
     position('.',R,C),
 
     C1 is C - 1,
-    lchain(R,C1,Player).
+    chain(R,C1,Player,0,-1).
 
 legal_move(R,C,Player) :-
     position('.',R,C),
 
     R1 is R + 1,
-    dchain(R1,C,Player).
+    chain(R1,C,Player,1,0).
 
 legal_move(R,C,Player) :-
     position('.',R,C),
 
     R1 is R - 1,
-    uchain(R1,C,Player).
+    chain(R1,C,Player,-1,0).
 
-% an (r)chain consists of one
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C + 1,
+    R1 is R + 1,
+    chain(R1,C1,Player,1,1).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C + 1,
+    R1 is R - 1,
+    chain(R1,C1,Player,-1,1).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C - 1,
+    R1 is R + 1,
+    chain(R1,C1,Player,1,-1).
+
+legal_move(R,C,Player) :-
+    position('.',R,C),
+
+    C1 is C - 1,
+    R1 is R - 1,
+    chain(R1,C1,Player,-1,-1).
+
+% a chain consists of one
 % opponent disc and one adjacent
 % player disc or one opponent
-% disc and one adjacent (r)chain.
+% disc and one adjacent chain.
 
-rchain(R,C,Player) :-
+chain(R,C,Player,RD,CD) :-
     position(Opponent,R,C),
     Opponent \= '.',
     Opponent \= Player,
 
-    C1 is C + 1,
-    position(Player,R,C1).
+    C1 is C + CD,
+    R1 is R + RD,
 
-rchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
+    !,
 
-    C1 is C + 1,
-    rchain(R,C1,Player).
-
-% left chain
-
-lchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    C1 is C - 1,
-    position(Player,R,C1).
-
-lchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    C1 is C - 1,
-    lchain(R,C1,Player).
-
-% downwards chain
-
-dchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    R1 is R + 1,
-    position(Player,R1,C).
-
-dchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    R1 is R + 1,
-    dchain(R1,C,Player).
-
-% upwards chain
-
-uchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    R1 is R - 1,
-    position(Player,R1,C).
-
-uchain(R,C,Player) :-
-    position(Opponent,R,C),
-    Opponent \= '.',
-    Opponent \= Player,
-
-    R1 is R - 1,
-    uchain(R1,C,Player).
+    ( position(Player,R1,C1) ;
+      chain(R1,C1,Player,RD,CD) ).
 
 % find moves, prints all legal moves
 % given a text file containing game
