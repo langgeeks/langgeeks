@@ -148,7 +148,7 @@ print_moves([R:C|Moves]) :-
 % tests
 
 all :-
-    consult('test.pl'),
+    consult('../test.pl'),
 
     asserteq(test_find_moves, 'test1.txt', [5:3,4:6,3:5,6:4]),
     asserteq(test_find_moves, 'test2.txt', [5:6,3:4,3:6]),
