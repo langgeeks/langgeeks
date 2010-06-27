@@ -1,16 +1,7 @@
 % reversi kata
 
 -module(reversi).
--export([find_moves/1,
-	 
-	 extract_moves/3,
-	 extract_moves_rows/4,
-	 extract_moves_cols/4,
-	 opponent/1,
-	 find_lmoves/2,
-	 find_rmoves/2,
-	 load_game_state/1,
-	 make_cols/1]).
+-export([find_moves/1]).
 
 -include_lib("eunit/include/eunit.hrl").
 
@@ -18,7 +9,7 @@ find_moves(Filename) ->
     {board,
      {rows, Rows},
      {cols, Cols},
-     {player, Player}} = reversi:load_game_state(Filename),
+     {player, Player}} = load_game_state(Filename),
     extract_moves(Rows,Cols,Player).
 
 extract_moves(Rows,Cols,Player) ->
@@ -111,35 +102,35 @@ make_cols([Row|Rows],Cols) ->
 % tests
 
 opponent_test() ->
-    "B" = reversi:opponent("W"),
-    "W" = reversi:opponent("B"),
+    "B" = opponent("W"),
+    "W" = opponent("B"),
 
-    "B" = reversi:opponent("."),
-    "B" = reversi:opponent("\n"),
-    "B" = reversi:opponent("A").
+    "B" = opponent("."),
+    "B" = opponent("\n"),
+    "B" = opponent("A").
 
 find_lmoves_test() ->
-    [0] = reversi:find_lmoves(".BW", "W"),
-    [0] = reversi:find_lmoves(".BBW", "W"),
-    [0] = reversi:find_lmoves(".BBBBBBW", "W"),
-    [1] = reversi:find_lmoves("..BBBW", "W"),
+    [0] = find_lmoves(".BW", "W"),
+    [0] = find_lmoves(".BBW", "W"),
+    [0] = find_lmoves(".BBBBBBW", "W"),
+    [1] = find_lmoves("..BBBW", "W"),
     
-    [0,3] = reversi:find_lmoves(".BW.BW", "W"),    
-    [0,3,6,9] = reversi:find_lmoves(".BW.BW.BW.BBBBBW","W").    
+    [0,3] = find_lmoves(".BW.BW", "W"),    
+    [0,3,6,9] = find_lmoves(".BW.BW.BW.BBBBBW","W").    
 
 find_rmoves_test() ->
-    [2] = reversi:find_rmoves("WB.", "W"),
-    [3] = reversi:find_rmoves("WBB.", "W"),
-    [7] = reversi:find_rmoves("WBBBBBB.", "W"),
-    [4] = reversi:find_rmoves("WBBB..", "W"),
+    [2] = find_rmoves("WB.", "W"),
+    [3] = find_rmoves("WBB.", "W"),
+    [7] = find_rmoves("WBBBBBB.", "W"),
+    [4] = find_rmoves("WBBB..", "W"),
 
-    [2,5,8,16] = reversi:find_rmoves("BW.BW.BW.BWWWWWW.","B").
+    [2,5,8,16] = find_rmoves("BW.BW.BW.BWWWWWW.","B").
 
 load_game_state_test() ->
     { board,
       {rows, Rows},
       {cols, Cols},
-      {player, Player} } = reversi:load_game_state("test.txt"),
+      {player, Player} } = load_game_state("test.txt"),
     "B" = Player,
     8 = length(Rows),
     8 = length(Cols),
@@ -148,9 +139,9 @@ load_game_state_test() ->
     Cols = ["A2345678","1A345678","12A45678","123A5678","1234A678","12345A78","123456A8","1234567A"].
       
 find_moves_test() ->
-    [{3,0},{3,1},{3,2},{3,3}] = reversi:extract_moves_rows([".BW.", ".BW.", ".BW.", ".BW."],"B",[],0),
-    []                        = reversi:extract_moves_cols(["....", "BBBB", "WWWW", "...."],"B",[],0),
-    [{3,0},{3,1},{3,2},{3,3}] = reversi:extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
+    [{3,0},{3,1},{3,2},{3,3}] = extract_moves_rows([".BW.", ".BW.", ".BW.", ".BW."],"B",[],0),
+    []                        = extract_moves_cols(["....", "BBBB", "WWWW", "...."],"B",[],0),
+    [{3,0},{3,1},{3,2},{3,3}] = extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
 						      ["....", "BBBB", "WWWW", "...."], "B"),
 
-    [{5,3}, {2,4}, {3,5}, {4,2}] = reversi:find_moves("test1.txt").
+    [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt").
