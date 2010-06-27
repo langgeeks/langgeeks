@@ -130,6 +130,7 @@ load_game_state_test() ->
     { board,
       {rows, Rows},
       {cols, Cols},
+      {diagonals, Diagonals },
       {player, Player} } = load_game_state("test.txt"),
     "B" = Player,
     8 = length(Rows),
@@ -137,11 +138,11 @@ load_game_state_test() ->
     
     Rows = ["A1111111","2A222222","33A33333","444A4444","5555A555","66666A66","777777A7","8888888A"],
     Cols = ["A2345678","1A345678","12A45678","123A5678","1234A678","12345A78","123456A8","1234567A"].
-      
+    
 find_moves_test() ->
     [{3,0},{3,1},{3,2},{3,3}] = extract_moves_rows([".BW.", ".BW.", ".BW.", ".BW."],"B",[],0),
     []                        = extract_moves_cols(["....", "BBBB", "WWWW", "...."],"B",[],0),
     [{3,0},{3,1},{3,2},{3,3}] = extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
-						      ["....", "BBBB", "WWWW", "...."], "B"),
+					      ["....", "BBBB", "WWWW", "...."], "B"),
 
     [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt").
