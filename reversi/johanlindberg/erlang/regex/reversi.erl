@@ -9,6 +9,7 @@ find_moves(Filename) ->
     {board,
      {rows, Rows},
      {cols, Cols},
+     {diagonals, Diagonals},
      {player, Player}} = load_game_state(Filename),
     extract_moves(Rows,Cols,Player).
 
@@ -76,10 +77,11 @@ load_game_state(Filename) ->
 
     Rows       = lists:sublist(Lines,1,8),
     Cols       = make_cols(Rows),
+    Diagonals  = make_diagonals(Rows),
 
     Player     = lists:nth(9,Lines), 
 
-    {board, {rows, Rows}, {cols, Cols}, {player, Player}}.
+    {board, {rows, Rows}, {cols, Cols}, {diagonals, Diagonals}, {player, Player}}.
 
 contents_of_file(Input, Lines) ->
     case io:get_line(Input,"") of
@@ -98,6 +100,9 @@ make_cols([Row|Rows],Cols) ->
     if Rows == [] -> C;
        true       -> make_cols(Rows,C)
     end.
+
+make_diagonals(Rows) ->
+    [].
 
 % tests
 
