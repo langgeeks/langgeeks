@@ -1,7 +1,7 @@
 % reversi kata
 
 -module(reversi).
--export([find_moves/1, load_game_state/1]).
+-export([find_moves/1]).
 
 -include_lib("eunit/include/eunit.hrl").
 
@@ -220,4 +220,6 @@ find_moves_test() ->
     [{3,0},{3,1},{3,2},{3,3}] = extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
 					      ["....", "BBBB", "WWWW", "...."], "B"),
 
-    [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt").
+    [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt"),
+    [{5,6}, {3,4}, {3,6}]        = find_moves("test2.txt").
+    
