@@ -134,6 +134,7 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  @Ignore
   def blackHavePossibleMovesToTheLeftAndToTheRight() {
     val row = board.createRow("...WBW..")
     board.squares(0) = row
@@ -141,5 +142,6 @@ class ReversiSuite extends AssertionsForJUnit {
     board.evaluate()
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
+
 
 }
