@@ -85,63 +85,57 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Test
   def noPossibleMovesForBlackWithOnlyOnePieceOnTheEighthSquare() {
-    val row = board.createRow(".......W")
-    board.squares(0) = row
-    val expected = board.createRow(".......W")
+    board.parseBoard(".......W")
     board.evaluate()
+    val expected = board.createRow(".......W")
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   def noPossibleMovesForBlackWhenFirstNonEmptySquareIsBlack() {
-    val row = board.createRow("..B....")
-    board.squares(0) = row
-    val expected = board.createRow("..B....")
+    board.parseBoard("..B....")
     board.evaluate()
+    val expected = board.createRow("..B....")
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
-    val row = board.createRow("...WB...")
-    board.squares(0) = row
-    val expected = board.createRow("..OWB...")
+    board.parseBoard("...WB...")
     board.evaluate()
+    val expected = board.createRow("..OWB...")
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   def anyOfColorFromIndexReturnsTrue() {
-    val row = board.createRow("...WB...")
-    board.squares(0) = row
+    board.parseBoard("...WB...")
     assertTrue(board.anyOfColorFromFirstNonEmpy(0, Black))
   }
 
   @Test
   def anyOfColorFromIndexReturnsFalse() {
-    val row = board.createRow("...WWW..")
-    board.squares(0) = row
+    board.parseBoard("...WWW..")
     assertFalse(board.anyOfColorFromFirstNonEmpy(0, Black))
   }
 
   @Test
   def markPossibleMoveForColor() {
-    val row = board.createRow("...WB...")
-    board.squares(0) = row
-    val expected = board.createRow("..OWB...")
+    board.parseBoard("...WB...")
     board.markPossibleMoveForColor(0, Black)
+    val expected = board.createRow("..OWB...")
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
   @Test
   @Ignore
   def blackHavePossibleMovesToTheLeftAndToTheRight() {
-    val row = board.createRow("...WBW..")
-    board.squares(0) = row
-    val expected = board.createRow("..OWBWO.")
+    board.parseBoard("...WBW..")
     board.evaluate()
+    val expected = board.createRow("..OWBWO.")
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
+
 
 
 }

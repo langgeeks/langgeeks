@@ -4,7 +4,7 @@ class Board {
   var squares:Array[Array[Square.Value]] = _
 
   def startGame() = {
-    squares = parseBord(
+    parseBoard(
       "     ........     \n" +
       "     ........     \n" +
       "     ........     \n" +
@@ -18,8 +18,8 @@ class Board {
   }
 
 
-  def parseBord(board: String) = {
-    stripLines(board).map{createRow(_)}
+  def parseBoard(board: String) = {
+    squares = stripLines(board).map{createRow(_)}
   }
 
   def stripLines(board: String) = {
