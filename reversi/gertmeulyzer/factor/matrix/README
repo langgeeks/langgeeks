@@ -1,0 +1,2 @@
+This approach is going to be matrix based.
+The board is represented by a 8x8 matrix (or array or 8 arrays, whatever works).
