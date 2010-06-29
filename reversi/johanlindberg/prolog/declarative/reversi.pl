@@ -144,3 +144,20 @@ print_moves([R:C|Moves]) :-
     char_code(Char, Code),
     write(Char),write(C),write(','),
     print_moves(Moves).
+
+% tests
+
+all :-
+    consult('../test.pl'),
+
+    asserteq(test_find_moves, 'test1.txt', [5:3,4:6,3:5,6:4]),
+    asserteq(test_find_moves, 'test2.txt', [5:6,3:4,3:6]),
+    asserteq(test_find_moves, 'test3.txt', [6:4,6:5,6:3,6:6,6:7]).
+
+test_find_moves(Filename, Result) :-
+    process(Filename),
+    current_player(P),
+
+    !,
+
+    findall(R:C, legal_move(R,C,P), Result).
