@@ -11,11 +11,12 @@ find_moves(Filename) ->
      {cols, Cols},
      {diagonals, Diagonals},
      {player, Player}} = load_game_state(Filename),
-    extract_moves(Rows,Cols,Player).
+    extract_moves(Rows,Cols,Diagonals,Player).
 
-extract_moves(Rows,Cols,Player) ->
+extract_moves(Rows,Cols,Diagonals,Player) ->
     lists:append(extract_moves_rows(Rows,Player,[],0),
-		 extract_moves_cols(Cols,Player,[],0)).
+		 extract_moves_cols(Cols,Player,[],0),
+		 extract_moves_diagonals(Diagonals,Player,[],0)).
 
 extract_moves_rows([Row|Rows],Player,Acc,I) ->
     F = fun(C) -> {C,I} end,
@@ -35,6 +36,16 @@ extract_moves_cols([Col|Cols],Player,Acc,I) ->
     if
 	Cols == [] -> Acc1;
 	true       -> extract_moves_cols(Cols,Player,Acc1,I+1)
+    end.    
+
+extract_moves_diagonals([Diagonal|Diagonals],Player,Acc,I) ->
+    F = fun(R) -> {R,I} end,
+    Acc1 = lists:append(Acc,
+			lists:append(lists:map(F, find_lmoves(Diagonal,Player)),
+				     lists:map(F, find_rmoves(Diagonal,Player)))),
+    if
+	Diagonals == [] -> Acc1;
+	true            -> extract_moves_cols(Diagonals,Player,Acc1,I+1)
     end.    
 
 opponent(Player) ->
@@ -218,7 +229,8 @@ find_moves_test() ->
     [{3,0},{3,1},{3,2},{3,3}] = extract_moves_rows([".BW.", ".BW.", ".BW.", ".BW."],"B",[],0),
     []                        = extract_moves_cols(["....", "BBBB", "WWWW", "...."],"B",[],0),
     [{3,0},{3,1},{3,2},{3,3}] = extract_moves([".BW.", ".BW.", ".BW.", ".BW."],
-					      ["....", "BBBB", "WWWW", "...."], "B"),
+					      ["....", "BBBB", "WWWW", "...."],
+					      [], "B"), % this test ignores diagonals
 
     [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt"),
     [{5,6}, {3,4}, {3,6}]        = find_moves("test2.txt").
