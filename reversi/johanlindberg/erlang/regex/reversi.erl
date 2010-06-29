@@ -13,8 +13,24 @@ find_moves(Filename) ->
      {player, Player}} = load_game_state(Filename),
     extract_moves(Rows,Cols,Diagonals,Player).
 
-extract_moves(Board,Player) ->
-    true.
+extract_moves([[Direction,Lines]|Board],Player,Acc) ->
+    Acc1 = lists:append(Acc, extract_moves_lines(Lines,Player,Direction,[])),
+    if
+	Board == [] -> Acc1;
+	true        -> extract_moves(Board,Player,Acc1)
+    end.
+
+extract_moves_lines([[{C,R},Line]|Lines],Player,Direction,Acc) ->
+    {DC,DR} = Direction,
+
+    F = fun(P) -> {(P*DC)+C,(P*DR)+R} end,
+    Acc1 = lists:append(Acc,
+			lists:append(lists:map(F, find_lmoves(Line,Player)),
+				     lists:map(F, find_rmoves(Line,Player)))),
+    if
+	Lines == [] -> Acc1;
+	true        -> extract_moves_lines(Lines,Player,Direction,Acc1)
+    end.    
 
 extract_moves(Rows,Cols,Diagonals,Player) ->
     lists:append(lists:append(extract_moves_rows(Rows,Player,[],0),
@@ -236,6 +252,6 @@ find_moves_test() ->
 					      ["....", "....", "....", "...."], "B"), % this test ignores diagonals
 
     [{5,3}, {2,4}, {3,5}, {4,2}] = find_moves("test1.txt"),
-    [{2,1}] = extract_moves([{1,0},[[{1,1},"..BW"]]],"W").
+    [{2,1}] = extract_moves([[{1,0},[[{1,1},"..BW"]]]],"W",[]).
 %    [{5,6}, {3,4}, {3,6}]        = find_moves("test2.txt").
     
