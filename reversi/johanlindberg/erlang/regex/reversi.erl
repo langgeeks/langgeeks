@@ -218,6 +218,7 @@ find_moves_test() ->
 		       [{0,1},[[{1,1},".BW.BW"]]], % cols
 		       [{-1,1},[[{4,1},"..BW"]]], % diagonals (right to left)
 		       [{1,1},[[{1,1},"..BW"]]]],"W",[]), % diagonals (left to right)
-    [{6,4}, {3,5}, {4,6}, {5,3}] = find_moves("test1.txt"),
-    [{6,5}, {4,3}, {6,3}]        = find_moves("test2.txt").
+    [{6,4},{3,5},{4,6},{5,3}]       = find_moves("test1.txt"),
+    [{6,5},{4,3},{6,3}]             = find_moves("test2.txt"),
+    [{4,6},{5,6},{6,6},{7,6},{3,6}] = find_moves("test3.txt").
     
