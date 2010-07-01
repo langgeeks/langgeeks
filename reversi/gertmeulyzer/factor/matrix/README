@@ -1,2 +1,15 @@
 This approach is going to be matrix based.
 The board is represented by a 8x8 matrix (or array or 8 arrays, whatever works).
+
+
+
+* Notes on how to get Factor working.
+
+Best way is to clone the git repo:
+
+git clone http://github.com/slavapestov/factor.git
+cd factor
+./build-support/factor.sh update
+
+Make sure you have mesa-libGL-devel or whatever it is called in your distro.
+
