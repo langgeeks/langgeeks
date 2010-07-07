@@ -1,7 +1,8 @@
 import Square._
 
 class Board {
-  var squares:Array[Array[Square.Value]] = _
+  var squares: Array[Array[Square.Value]] = _
+  var player = Black  
 
   def startGame() = {
     parseBoard(
@@ -20,6 +21,10 @@ class Board {
 
   def parseBoard(board: String) = {
     squares = stripLines(board).map{createRow(_)}
+    if (squares.size > 1) {
+      player = squares.last.last
+    }
+    squares
   }
 
   def stripLines(board: String) = {

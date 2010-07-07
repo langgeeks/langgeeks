@@ -136,6 +136,32 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
+  @Test
+  def playerIsBlackAtTheStartOfTheGame() {
+    assertEquals(Black, board.player)
+  }
 
+  @Test
+  def playerIsWhite() {
+    val game = (
+      "      W.......       \n" +
+      "      .WB.W...       \n" +
+      "      ..BB.B..       \n" +
+      "      ..BWBW..       \n" +
+      "      ..BBW...       \n" +
+      "      .BBBWB..       \n" +
+      "      ....W.B.       \n" +
+      "             \n" +
+      "      ........       \n" +
+      "      W              \n");
+
+    board.parseBoard(game)
+    // println(board)
+    // val stripped = board.split("\n").map{_.trim}.filter{_.size != 0}.mkString("\n")
+    // println(stripped)
+
+    
+    assertEquals(White, board.player)
+  }
 
 }
