@@ -126,23 +126,23 @@ find_moves(Filename) :-
     process(Filename),
 
     current_player(P),
-    findall(R:C, legal_move(R,C,P), Result),
+    findall(C:R, legal_move(R,C,P), Result),
 
     print_moves(Result).
 
 % prints the last move
 
-print_moves([R:C|[]]) :-
-    Code is R + 64,
+print_moves([C:R|[]]) :-
+    Code is C + 64,
     char_code(Char, Code),
-    write(Char),write(C), nl.
+    write(Char),write(R), nl.
 
 % print moves
 
-print_moves([R:C|Moves]) :-
-    Code is R + 64,
+print_moves([C:R|Moves]) :-
+    Code is C + 64,
     char_code(Char, Code),
-    write(Char),write(C),write(','),
+    write(Char),write(R),write(','),
     print_moves(Moves).
 
 % tests
@@ -150,9 +150,9 @@ print_moves([R:C|Moves]) :-
 all :-
     consult('../test.pl'),
 
-    asserteq(test_find_moves, 'test1.txt', [5:3,4:6,3:5,6:4]),
-    asserteq(test_find_moves, 'test2.txt', [5:6,3:4,3:6]),
-    asserteq(test_find_moves, 'test3.txt', [6:4,6:5,6:3,6:6,6:7]).
+    asserteq(test_find_moves, 'test1.txt', [3:5,6:4,5:3,4:6]),
+    asserteq(test_find_moves, 'test2.txt', [6:5,4:3,6:3]),
+    asserteq(test_find_moves, 'test3.txt', [4:6,5:6,3:6,6:6,7:6]).
 
 test_find_moves(Filename, Result) :-
     process(Filename),
@@ -160,4 +160,4 @@ test_find_moves(Filename, Result) :-
 
     !,
 
-    findall(R:C, legal_move(R,C,P), Result).
+    findall(C:R, legal_move(R,C,P), Result).
