@@ -1,21 +1,37 @@
 import Square._
 
 class Board {
-  var squares:Array[Array[Square.Value]] = _
+  var squares: Array[Array[Square.Value]] = _
+  var player = Black  
 
   def startGame() = {
-    squares = Array(
-      createRow("........"),
-      createRow("........"),
-      createRow("........"),
-      createRow("...BW..."),
-      createRow("...WB..."),
-      createRow("........"),
-      createRow("........"),
-      createRow("........"))
+    parseBoard(
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ...BW...     \n" +
+      "     ...WB...     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     B              "
+    )
   }
 
-  def createRow(row: String): Array[Square.Value] = {
+
+  def parseBoard(board: String) = {
+    squares = stripLines(board).map{createRow(_)}
+    if (squares.size > 1) {
+      player = squares.last.last
+    }
+    squares
+  }
+
+  def stripLines(board: String) = {
+    board.split("\n").map{_.trim}.filter{_.size != 0}
+  }
+
+  def createRow(row: String) = {
     row.map { Square.parse(_) }.toArray
   }
 
@@ -37,7 +53,7 @@ class Board {
     throw new RuntimeException
   }
 
-  def anyOfColorFromFirstNonEmpy(rowIndex: Int, color: Square.Value): Boolean = {
+  def anyOfColorFromFirstNonEmpy(rowIndex: Int, color: Square.Value) = {
     squares(rowIndex).drop(indexOfFirstNonEmptySquare(rowIndex)).exists(_ == color)
   }
   
