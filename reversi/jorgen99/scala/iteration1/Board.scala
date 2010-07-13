@@ -59,6 +59,8 @@ class Board {
     row.head +: evaluateRow(row.tail)
   }
 
-
+  def possibleMove(row: Array[Square.Value]) = {
+    false
+  }
 }
 
