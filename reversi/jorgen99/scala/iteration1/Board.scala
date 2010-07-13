@@ -43,7 +43,9 @@ class Board {
   }
 
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
-    createRow("........")
+    if (row.isEmpty)
+      return row
+    row.head +: evaluateRow(row.tail)
   }
 
 
