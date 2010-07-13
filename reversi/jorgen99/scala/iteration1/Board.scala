@@ -60,7 +60,10 @@ class Board {
   }
 
   def possibleMove(row: Array[Square.Value]) = {
-    false
+    if (row.head == player)
+      false
+    else
+      true
   }
 }
 

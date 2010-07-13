@@ -104,6 +104,12 @@ class ReversiSuite extends AssertionsForJUnit {
     assertFalse(board.possibleMove(row))
   }
 
+  @Test
+  def aWhiteFollowedByABlackIsAPossibleMove() {
+    val row = board.createRow("WB..")
+    assertTrue(board.possibleMove(row))
+  }
+
   // @Test
   // @Ignore
   // def blackHavePossibleMovesToTheLeftAndToTheRight() {
