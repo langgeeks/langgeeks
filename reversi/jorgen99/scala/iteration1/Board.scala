@@ -23,7 +23,7 @@ class Board {
     squares = stripLines(board).map{createRow(_)}
     if (squares.size > 1) {
       player = squares.last.last
-      squares = squares.slice(0, squares.size - 1)
+      squares = squares.dropRight(1)
     }
     squares
   }
