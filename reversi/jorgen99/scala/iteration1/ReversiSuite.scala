@@ -156,11 +156,6 @@ class ReversiSuite extends AssertionsForJUnit {
       "      W              \n");
 
     board.parseBoard(game)
-    // println(board)
-    // val stripped = board.split("\n").map{_.trim}.filter{_.size != 0}.mkString("\n")
-    // println(stripped)
-
-    
     assertEquals(White, board.player)
   }
 
