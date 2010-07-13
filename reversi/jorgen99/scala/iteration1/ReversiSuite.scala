@@ -47,6 +47,11 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  def opponentIsWhiteAtTheStartOfTheGame() {
+    assertEquals(White, board.opponent)
+  }
+
+  @Test
   def playerIsWhite() {
     val game = (
       "      W.......       \n" +
@@ -87,6 +92,7 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  @Ignore
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
     val row = board.createRow("...WB...")
     val expected = board.createRow("..OWB...")

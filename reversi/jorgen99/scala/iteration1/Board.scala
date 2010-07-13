@@ -1,5 +1,7 @@
 import Square._
 
+import scala.util.matching.Regex
+
 class Board {
   var squares: Array[Array[Square.Value]] = _
   var player = Black  
@@ -36,6 +38,13 @@ class Board {
     row.map { Square.parse(_) }.toArray
   }
 
+  def opponent() = {
+    if (player == Black)
+      White
+    else
+      Black
+  }
+
   def evaluate() {
     squares.foreach {
       evaluateRow _
@@ -45,8 +54,11 @@ class Board {
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
     if (row.isEmpty)
       return row
+    // if (possibleMove(row.tail))
+    //     return Possible +: evaluateRow(row.tail)
     row.head +: evaluateRow(row.tail)
   }
 
 
 }
+
