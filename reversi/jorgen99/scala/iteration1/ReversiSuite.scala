@@ -64,12 +64,12 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(White, board.player)
   }
 
-  // @Test
-  // def indexOfFirstNonEmptySquareIsMinusOne() {
-  //   val row = board.createRow("........")
-  //   val index = board.indexOfFirstNonEmptySquare(row)
-  //   assertEquals(-1, index)
-  // }
+  @Test
+  def evaluatingOneBlankRowShouldReturnOneBlankRow() {
+    val row = board.parseBoard("........\n" + "B")
+    val expected = board.createRow("........")
+    assertEquals(expected.mkString(", "), board.evaluateRow(row(0)).mkString(", "))
+  }
 
   // @Test
   // def noPossibleMovesForBlackWithOnlyOnePieceOnTheEighthSquare() {

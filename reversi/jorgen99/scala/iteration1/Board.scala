@@ -43,7 +43,7 @@ class Board {
   }
 
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
-    null
+    createRow("........")
   }
 
 
