@@ -66,9 +66,9 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Test
   def evaluatingOneBlankRowShouldReturnOneBlankRow() {
-    val row = board.parseBoard("........\n" + "B")
+    val row = board.createRow("........")
     val expected = board.createRow("........")
-    assertEquals(expected.mkString(", "), board.evaluateRow(row(0)).mkString(", "))
+    assertEquals(expected.mkString(", "), board.evaluateRow(row).mkString(", "))
   }
 
   // @Test
