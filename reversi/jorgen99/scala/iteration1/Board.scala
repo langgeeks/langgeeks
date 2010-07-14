@@ -52,8 +52,8 @@ class Board {
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
     if (row.isEmpty)
       return row
-    // if (possibleMove(row.tail))
-    //     return Possible +: evaluateRow(row.tail)
+    if (possibleMove(row.tail))
+        return Possible +: evaluateRow(row.tail)
     row.head +: evaluateRow(row.tail)
   }
 

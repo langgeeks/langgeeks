@@ -91,7 +91,6 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  @Ignore
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
     val row = board.createRow("...WB...")
     val expected = board.createRow("..OWB...")
