@@ -44,8 +44,8 @@ class Board {
   }
 
   def evaluate() {
-    squares.foreach {
-      evaluateRow _
+    squares = squares.map { row: Array[Square.Value] =>
+      evaluateRow(evaluateRow(row).reverse).reverse
     }
   }
 

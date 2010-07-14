@@ -134,13 +134,12 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(expected.mkString, board.evaluateRow(row).mkString)
   }
 
-  // @Test
-  // @Ignore
-  // def blackHavePossibleMovesToTheLeftAndToTheRight() {
-  //   board.parseBoard("...WBW..")
-  //   board.evaluate()
-  //   val expected = board.createRow("..OWBWO.")
-  //   assertEquals(expected.mkString, board.squares(0).mkString)
-  // }
+  @Test
+  def blackHavePossibleMovesToTheLeftAndToTheRight() {
+    val row = board.parseBoard("...WBW..\n" + "B")
+    board.evaluate
+    val expected = board.createRow("..OWBWO.")
+    assertEquals(expected.mkString, board.squares(0).mkString)
+  }
 
 }
