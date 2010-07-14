@@ -99,15 +99,33 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  def anEmptyRowMakesItANonPossibleMove() {
+    val row = board.createRow("..")
+    assertFalse(row.mkString, board.possibleMove(row))
+  }
+
+  @Test
   def blackAsFirstTokenMakesItANonPossibleMove() {
     val row = board.createRow("B...")
-    assertFalse(board.possibleMove(row))
+    assertFalse(row.mkString, board.possibleMove(row))
+  }
+
+  @Test
+  def aSingleWhiteMakesItANonPossibleMove() {
+    val row = board.createRow("W...")
+    assertFalse(row.mkString, board.possibleMove(row))
   }
 
   @Test
   def aWhiteFollowedByABlackIsAPossibleMove() {
     val row = board.createRow("WB..")
-    assertTrue(board.possibleMove(row))
+    assertTrue(row.mkString, board.possibleMove(row))
+  }
+
+  @Test
+  def anyNumberOfWhiteFollowedByABlackIsAPossibleMove() {
+    val row = board.createRow("WWWB.")
+    assertTrue(row.mkString, board.possibleMove(row))
   }
 
   // @Test

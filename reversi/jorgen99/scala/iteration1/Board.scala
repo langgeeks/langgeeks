@@ -1,7 +1,5 @@
 import Square._
 
-import scala.util.matching.Regex
-
 class Board {
   var squares: Array[Array[Square.Value]] = _
   var player = Black  
@@ -59,11 +57,20 @@ class Board {
     row.head +: evaluateRow(row.tail)
   }
 
-  def possibleMove(row: Array[Square.Value]) = {
-    if (row.head == player)
-      false
-    else
-      true
+  def possibleMove(row: Array[Square.Value]): Boolean = {
+    possibleMove(row, true)
+  }
+
+  def possibleMove(row: Array[Square.Value], atTheStart: Boolean): Boolean = {
+    if (row.isEmpty)
+      return false
+    if (row.head == Empty)
+      return false
+    if (row.head == player && atTheStart)
+      return false
+    if (row.head == player && !atTheStart)
+      return true
+    return possibleMove(row.tail, false)
   }
 }
 
