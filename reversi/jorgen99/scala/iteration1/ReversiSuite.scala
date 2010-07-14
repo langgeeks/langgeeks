@@ -91,13 +91,6 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  def blackHasOnePossibleMoveToTheLeftOnOneLine() {
-    val row = board.createRow("...WB...")
-    val expected = board.createRow("..OWB...")
-    assertEquals(expected.mkString, board.evaluateRow(row).mkString)
-  }
-
-  @Test
   def anEmptyRowMakesItANonPossibleMove() {
     val row = board.createRow("..")
     assertFalse(row.mkString, board.possibleMove(row))
@@ -125,6 +118,20 @@ class ReversiSuite extends AssertionsForJUnit {
   def anyNumberOfWhiteFollowedByABlackIsAPossibleMove() {
     val row = board.createRow("WWWB.")
     assertTrue(row.mkString, board.possibleMove(row))
+  }
+
+  @Test
+  def blackHasOnePossibleMoveToTheLeftOnOneLine() {
+    val row = board.createRow("...WB...")
+    val expected = board.createRow("..OWB...")
+    assertEquals(expected.mkString, board.evaluateRow(row).mkString)
+  }
+
+  @Test
+  def testingRowWithMoreThenOnePossibleMove() {
+    val row = board.createRow(".WB..WB.")
+    val expected = board.createRow("OWB.OWB.")
+    assertEquals(expected.mkString, board.evaluateRow(row).mkString)
   }
 
   // @Test
