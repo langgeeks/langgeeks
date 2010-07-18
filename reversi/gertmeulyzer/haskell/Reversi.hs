@@ -1,4 +1,5 @@
 import System.Environment
+import Data.List
 
 data Player = B | W
 data Location = Black | White | Empty
@@ -11,5 +12,7 @@ main = do
   
 checkLines :: [String] -> IO [()]
 checkLines = mapM putStrLn
+
+
 
 -- validMoveOnLine :: String -> String -> Bool
