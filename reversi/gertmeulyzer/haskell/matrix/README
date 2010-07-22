@@ -1,0 +1,11 @@
+Some notes
+==========
+
+To compile this:
+
+ghc --make Reversi.hs -o reversi
+
+
+There is no specific module for now because I'm going to write all of this in 1 file, so I don't see the need yet.
+I'm still learning this language, so don't expect this to be great Haskell. If you have any remarks, please share them. Afterall, that's what langgeeks is for. ;-)
+
