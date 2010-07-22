@@ -190,4 +190,21 @@ class ReversiSuite extends AssertionsForJUnit {
 
   }
 
+  @Test
+  def evaluateBoardLeftToRight() {
+    val game = (
+      "      ....W..W       \n" +
+      "      B...B..B       \n" +
+      "      W......B       \n" +
+      "      ........       \n" +
+      "      W              \n");
+
+
+    board.parseBoard(game)
+    board.evaluateColumnsLeftToRight
+    val expected = "O...W..W\nB...B..B\nW...O..B\n.......O\nW"
+    assertEquals(expected, board.toString)
+
+  }
+
 }
