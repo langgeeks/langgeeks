@@ -121,6 +121,12 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  def aWhiteFollowedByManyBlackIsAPossibleMove() {
+    val row = board.createRow("WBBBB.")
+    assertTrue(row.mkString, board.possibleMove(row))
+  }
+
+  @Test
   def blackHasOnePossibleMoveToTheLeftOnOneLine() {
     val row = board.createRow("...WB...")
     val expected = board.createRow("..OWB...")
@@ -142,4 +148,30 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(expected.mkString, board.squares(0).mkString)
   }
 
+  @Test
+  def blackHavePossibleMovesToTheLeftAndToTheRightWithMoreThanOneBlackInbetween() {
+    val row = board.parseBoard(".BBBWB..\n" + "W")
+    board.evaluate
+    val expected = board.createRow("OBBBWBO.")
+    assertEquals(expected.mkString, board.squares(0).mkString)
+  }
+
+  @Test
+  def testBoardToString() {
+    val game = (
+      "      W.......       \n" +
+      "      .WB.W...       \n" +
+      "      ..BB.B..       \n" +
+      "      ..BWBW..       \n" +
+      "      ..BBW...       \n" +
+      "      .BBBWB..       \n" +
+      "      ....W.B.       \n" +
+      "             \n" +
+      "      ........       \n" +
+      "      W              \n");
+
+    board.parseBoard(game)
+    val expected = "W.......\n.WB.W...\n..BB.B..\n..BWBW..\n..BBW...\n.BBBWB..\n....W.B.\n........\nW"
+    assertEquals(expected, board.toString)
+  }
 }

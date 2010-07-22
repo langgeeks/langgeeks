@@ -52,8 +52,8 @@ class Board {
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
     if (row.isEmpty)
       return row
-    if (possibleMove(row.tail))
-        return Possible +: evaluateRow(row.tail)
+    if (row.head == Empty && possibleMove(row.tail))
+      return Possible +: evaluateRow(row.tail)
     row.head +: evaluateRow(row.tail)
   }
 
@@ -72,5 +72,16 @@ class Board {
       return true
     return possibleMove(row.tail, false)
   }
+
+  override def toString() = {
+    val str = squares.map {
+      _.mkString + "\n"
+    }.mkString
+    if (player != null)
+      str + player
+    else
+      str
+  }
+  
 }
 
