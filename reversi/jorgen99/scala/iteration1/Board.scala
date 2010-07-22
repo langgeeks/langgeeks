@@ -76,7 +76,7 @@ class Board {
   def possibleMove(row: Array[Square.Value], atTheStart: Boolean): Boolean = {
     if (row.isEmpty)
       return false
-    if (row.head == Empty)
+    if (row.head == Empty || row.head == Possible)
       return false
     if (row.head == player && atTheStart)
       return false
