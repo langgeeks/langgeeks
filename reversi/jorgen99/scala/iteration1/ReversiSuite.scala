@@ -157,6 +157,13 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
+  def possibleMovesShouldBeTreatedLikeAnEmptySquare() {
+    val row = board.createRow("..OWB...")
+    val expected = board.createRow("..OWB...")
+    assertEquals(expected.mkString, board.evaluateRow(row).mkString)
+  }
+
+  @Test
   def testBoardToString() {
     val game = (
       "      W.......       \n" +
