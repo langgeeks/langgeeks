@@ -44,7 +44,11 @@ class Board {
   }
 
   def evaluate() {
-    squares = squares.map { row: Array[Square.Value] =>
+    squares = evaluateRowsTopDown
+  }
+
+  def evaluateRowsTopDown() = {
+    squares.map { row =>
       evaluateRow(evaluateRow(row).reverse).reverse
     }
   }
