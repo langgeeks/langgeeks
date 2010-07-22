@@ -45,6 +45,7 @@ class Board {
 
   def evaluate() {
     squares = evaluateRowsTopDown
+    squares = evaluateColumnsLeftToRight
   }
 
   def evaluateRowsTopDown() = {
@@ -57,6 +58,7 @@ class Board {
     squares = squares.transpose
     squares = evaluateRowsTopDown
     squares = squares.transpose
+    squares
   }
 
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
