@@ -215,7 +215,6 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  @Ignore
   def evaluateBoardTopDownAndLeftToRight() {
     val game = (
       "      ...BW..W       \n" +
