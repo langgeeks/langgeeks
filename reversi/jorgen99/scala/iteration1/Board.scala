@@ -53,6 +53,12 @@ class Board {
     }
   }
 
+  def evaluateColumnsLeftToRight() = {
+    squares = squares.transpose
+    squares = evaluateRowsTopDown
+    squares = squares.transpose
+  }
+
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
     if (row.isEmpty)
       return row
