@@ -7,7 +7,14 @@ findMoveInRow :: Char -> String -> Int -> Int
 findMoveInRow player [] pos = -1
 findMoveInRow player (x:xs) pos = if x == player
                                   then pos
-                                  else findMoveInRow player xs pos+1
+                                  else findMoveInRow player xs (pos+1)
+
+findChain :: Char -> String -> Int -> Bool
+findChain player (x:xs) pos = False
+
+test_findChain :: Bool
+test_findChain = findChain 'B' "WWB.." 0 == True &&
+                 findChain 'B' "B.." 0 == False
 
 test_findMoveInRow :: Bool
 test_findMoveInRow = findMoveInRow 'B' "...BW..." 0 == 5
