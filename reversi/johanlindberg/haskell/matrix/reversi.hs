@@ -9,5 +9,8 @@ findMoveInRow player (x:xs) pos = if x == player
                                   then pos
                                   else findMoveInRow player xs pos+1
 
+test_findMoveInRow :: Bool
+test_findMoveInRow = findMoveInRow 'B' "...BW..." 0 == 5
+
 test_findMove :: Bool
 test_findMove = findMove 'B' ["...BW..."] == [5]
