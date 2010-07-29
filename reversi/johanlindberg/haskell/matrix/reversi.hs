@@ -10,6 +10,7 @@ findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0
                                   else findMoveInRow player xs (pos+1)
 
 findChain :: Char -> String -> Int -> Bool
+findChain player [] pos = False
 findChain player (x:xs) pos = if x /= player
                               then if x /= '.'
                                    then findChain player xs (pos+1)
