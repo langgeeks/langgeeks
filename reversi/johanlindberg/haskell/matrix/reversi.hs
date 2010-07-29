@@ -5,7 +5,7 @@ findMove player board = [findMoveInRow player row 0 | row <- board]
 
 findMoveInRow :: Char -> String -> Int -> Int
 findMoveInRow player [] pos = -1
-findMoveInRow player (x:xs) pos = if x == player
+findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0
                                   then pos
                                   else findMoveInRow player xs (pos+1)
 
