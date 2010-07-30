@@ -28,4 +28,4 @@ test_findMoveInRow :: Bool
 test_findMoveInRow = findMoveInRow 'W' "...BW..." 0 == 2
 
 test_findMove :: Bool
-test_findMove = findMove 'W' ["...BW..."] == [2]
+test_findMove = findMove 'W' ["...BW...","...WB..."] == [2,5]
