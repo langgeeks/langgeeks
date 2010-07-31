@@ -1,8 +1,11 @@
 -- Reversi kata for langgeeks
 
 findMove :: Char -> [String] -> [Int]
-findMove player board = filter (>=0) [findMoveInRow player row 0 | row <- board] ++
-                        map (\x -> 7 - x) (filter (>=0) [findMoveInRow player (reverse row) 0 | row <- board])
+findMove player board = dropEmpty [findMoveInRow player row 0 | row <- board] ++
+                        map (\x -> 7 - x) (dropEmpty [findMoveInRow player (reverse row) 0 | row <- board])
+
+dropEmpty :: [Int] -> [Int]
+dropEmpty moves = filter (>= 0) moves
 
 findMoveInRow :: Char -> String -> Int -> Int
 findMoveInRow player [] pos = -1
