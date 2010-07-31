@@ -2,9 +2,14 @@
 
 findMove :: Char -> [String] -> [Int]
 findMove player board = dropEmpty [findMoveInRow player row 0 | row <- board] ++
-                        map (\x -> 7 - x) (dropEmpty [findMoveInRow player (reverse row) 0 | row <- board])
+                        reverseIndex (dropEmpty [findMoveInRow player (reverse row) 0 | row <- board])
+
+reverseIndex :: [Int] -> [Int]
+reverseIndex [] = []
+reverseIndex moves = map (\x -> 7 - x) moves
 
 dropEmpty :: [Int] -> [Int]
+dropEmpty [] = []
 dropEmpty moves = filter (>= 0) moves
 
 findMoveInRow :: Char -> String -> Int -> Int
