@@ -1,28 +1,29 @@
 -- Reversi kata for langgeeks
 
 findMove :: Char -> [String] -> [Int]
-findMove player board = [findMoveInRow player row 0 | row <- board] 
+findMove player board = filter (>=0) [findMoveInRow player row 0 | row <- board] ++
+                        map (\x -> 7 - x) (filter (>=0) [findMoveInRow player (reverse row) 0 | row <- board])
 
 findMoveInRow :: Char -> String -> Int -> Int
 findMoveInRow player [] pos = -1
-findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0 1
+findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0
                                   then pos
                                   else findMoveInRow player xs (pos+1)
 
-findChain :: Char -> String -> Int -> Int -> Bool
-findChain player [] pos inc  = False
-findChain player row pos inc = if (head row) /= player
-                               then if (head row) /= '.'
-                                    then findChain player (tail row) (pos + inc) inc
-                                    else False
-                               else pos /= 0
+findChain :: Char -> String -> Int -> Bool
+findChain player [] pos     = False
+findChain player (x:xs) pos = if x /= player
+                              then if x /= '.'
+                                   then findChain player xs (pos + 1)
+                                   else False
+                              else pos /= 0
 
 test_findChain :: Bool
-test_findChain = findChain 'B' "WWB.." 0 1  == True  &&
-                 findChain 'B' "B.." 0 1    == False &&
-                 findChain 'B' ".WWB.." 0 1 == False &&
-                 findChain 'B' "..." 0 1    == False &&
-                 findChain 'B' "W.." 0 1    == False
+test_findChain = findChain 'B' "WWB.." 0  == True  &&
+                 findChain 'B' "B.." 0    == False &&
+                 findChain 'B' ".WWB.." 0 == False &&
+                 findChain 'B' "..." 0    == False &&
+                 findChain 'B' "W.." 0    == False
 
 test_findMoveInRow :: Bool
 test_findMoveInRow = findMoveInRow 'W' "...BW..." 0 == 2
