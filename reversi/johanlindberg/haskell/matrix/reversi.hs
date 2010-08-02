@@ -1,8 +1,8 @@
 -- Reversi kata for langgeeks
 
---findMove :: Char -> [String] -> [Int]
---findMove player board = [findMoveInRow player row 0 | row <- board] ++
---                        reverseIndex [findMoveInRow player (reverse row) 0 | row <- board]
+findMoves :: Char -> [String] -> [Int]
+findMoves player [] = []
+findMoves player (row:board) = findMovesInRow player row 0 ++ findMoves player board
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
@@ -32,5 +32,5 @@ test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
                       findMovesInRow 'W' ".BW..BW." 0 == [0,4] &&
                       findMovesInRow 'W' "...WB..." 0 == []
 
---test_findMove :: Bool
---test_findMove = findMove 'W' ["...BW...","...WB..."] == [2,5]
+test_findMoves :: Bool
+test_findMoves = findMoves 'W' ["...BW...","...WB..."] == [2,5]
