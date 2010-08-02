@@ -1,21 +1,19 @@
 -- Reversi kata for langgeeks
 
+import Data.Maybe
+
 findMove :: Char -> [String] -> [Int]
-findMove player board = dropEmpty [findMoveInRow player row 0 | row <- board] ++
-                        reverseIndex (dropEmpty [findMoveInRow player (reverse row) 0 | row <- board])
+findMove player board = catMaybes [findMoveInRow player row 0 | row <- board] ++
+                        reverseIndex (catMaybes [findMoveInRow player (reverse row) 0 | row <- board])
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
 reverseIndex moves = map (\x -> 7 - x) moves
 
-dropEmpty :: [Int] -> [Int]
-dropEmpty [] = []
-dropEmpty moves = filter (>= 0) moves
-
-findMoveInRow :: Char -> String -> Int -> Int
-findMoveInRow player [] pos = -1
+findMoveInRow :: Char -> String -> Int -> Maybe Int
+findMoveInRow player [] pos = Nothing
 findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0
-                                  then pos
+                                  then Just pos
                                   else findMoveInRow player xs (pos+1)
 
 findChain :: Char -> String -> Int -> Bool
@@ -34,7 +32,7 @@ test_findChain = findChain 'B' "WWB.." 0  == True  &&
                  findChain 'B' "W.." 0    == False
 
 test_findMoveInRow :: Bool
-test_findMoveInRow = findMoveInRow 'W' "...BW..." 0 == 2
+test_findMoveInRow = findMoveInRow 'W' "...BW..." 0 == Just 2
 
 test_findMove :: Bool
 test_findMove = findMove 'W' ["...BW...","...WB..."] == [2,5]
