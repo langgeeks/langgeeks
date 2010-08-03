@@ -2,7 +2,9 @@
 
 findMoves :: Char -> [String] -> [Int]
 findMoves player [] = []
-findMoves player (row:board) = findMovesInRow player row 0 ++ findMoves player board
+findMoves player (row:board) = moves ++ findMoves player board
+                               where moves = findMovesInRow player row 0 ++
+                                             reverseIndex (findMovesInRow player (reverse row) 0)
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
