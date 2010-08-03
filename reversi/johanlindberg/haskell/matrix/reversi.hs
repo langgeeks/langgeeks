@@ -10,7 +10,8 @@ cols :: [String] -> [String]
 cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..2]]
 
 test_cols ::  Bool
-test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"]
+test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
+            cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
