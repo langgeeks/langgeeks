@@ -1,8 +1,18 @@
 -- Reversi kata for langgeeks
 
-findMoves :: Char -> [String] -> Int -> [(Int,Int)]
-findMoves player [] n = []
-findMoves player (row:board) n = zip moves (repeat n) ++ findMoves player board (n+1)
+findMoves :: Char -> [String] -> [(Int,Int)]
+findMoves player [] = []
+findMoves player board = findMovesR player (rows board) 0 ++ findMovesC player (cols board) 0
+
+findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
+findMovesR player [] n = []
+findMovesR player (row:board) n = zip moves (repeat n) ++ findMovesR player board (n+1)
+                                 where moves = findMovesInRow player row 0 ++
+                                               reverseIndex (findMovesInRow player (reverse row) 0)
+
+findMovesC :: Char -> [String] -> Int -> [(Int,Int)] 
+findMovesC player [] n = []
+findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player board (n+1)
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
@@ -45,7 +55,4 @@ test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
                       findMovesInRow 'W' "...WB..." 0 == []
 
 test_findMoves :: Bool
-test_findMoves = findMoves 'W' ["........",
-                                "...BW...",
-                                "...WB...",
-                                "........"] 0 == [(2,1),(5,2),(3,0),(4,3)]
+test_findMoves = findMoves 'W' ["........","........","........","...BW...","...WB...","........","........","........"] == [(2,3),(5,4),(3,2),(4,5)]
