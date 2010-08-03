@@ -1,28 +1,46 @@
 -- Reversi kata for langgeeks
 
-import Data.Maybe
+findMoves :: Char -> [String] -> [(Int,Int)]
+findMoves player [] = []
+findMoves player board = findMovesR player (rows board) 0 ++ findMovesC player (cols board) 0
 
-findMove :: Char -> [String] -> [Int]
-findMove player board = catMaybes [findMoveInRow player row 0 | row <- board] ++
-                        reverseIndex (catMaybes [findMoveInRow player (reverse row) 0 | row <- board])
+findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
+findMovesR player [] n = []
+findMovesR player (row:board) n = zip moves (repeat n) ++ findMovesR player board (n+1)
+                                 where moves = findMovesInRow player row 0 ++
+                                               reverseIndex (findMovesInRow player (reverse row) 0)
+
+findMovesC :: Char -> [String] -> Int -> [(Int,Int)] 
+findMovesC player [] n = []
+findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player board (n+1)
+                                 where moves = findMovesInRow player row 0 ++
+                                               reverseIndex (findMovesInRow player (reverse row) 0)
+
+rows :: [String] -> [String]
+rows board = board
+
+cols :: [String] -> [String]
+cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..((length (head board))- 1)]]
+
+test_cols ::  Bool
+test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
+            cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
 reverseIndex moves = map (\x -> 7 - x) moves
 
-findMoveInRow :: Char -> String -> Int -> Maybe Int
-findMoveInRow player [] pos = Nothing
-findMoveInRow player (x:xs) pos = if x == '.' && findChain player xs 0
-                                  then Just pos
-                                  else findMoveInRow player xs (pos+1)
+findMovesInRow :: Char -> String -> Int -> [Int]
+findMovesInRow player [] pos = []
+findMovesInRow player (x:xs) pos | x == '.'
+                                   && findChain player xs 0 = [pos] ++ findMovesInRow player xs (pos+1)
+                                 | otherwise                = findMovesInRow player xs (pos+1)
 
 findChain :: Char -> String -> Int -> Bool
 findChain player [] pos     = False
-findChain player (x:xs) pos = if x /= player
-                              then if x /= '.'
-                                   then findChain player xs (pos + 1)
-                                   else False
-                              else pos /= 0
+findChain player (x:xs) pos | x == player = pos /= 0
+                            | x /= '.'    = findChain player xs (pos+1)
+                            | otherwise   = False
 
 test_findChain :: Bool
 test_findChain = findChain 'B' "WWB.." 0  == True  &&
@@ -31,8 +49,10 @@ test_findChain = findChain 'B' "WWB.." 0  == True  &&
                  findChain 'B' "..." 0    == False &&
                  findChain 'B' "W.." 0    == False
 
-test_findMoveInRow :: Bool
-test_findMoveInRow = findMoveInRow 'W' "...BW..." 0 == Just 2
+test_findMovesInRow :: Bool
+test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
+                      findMovesInRow 'W' ".BW..BW." 0 == [0,4] &&
+                      findMovesInRow 'W' "...WB..." 0 == []
 
-test_findMove :: Bool
-test_findMove = findMove 'W' ["...BW...","...WB..."] == [2,5]
+test_findMoves :: Bool
+test_findMoves = findMoves 'W' ["........","........","........","...BW...","...WB...","........","........","........"] == [(2,3),(5,4),(3,2),(4,5)]
