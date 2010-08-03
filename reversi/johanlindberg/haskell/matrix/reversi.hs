@@ -1,10 +1,10 @@
 -- Reversi kata for langgeeks
 
-findMoves :: Char -> [String] -> [Int]
-findMoves player [] = []
-findMoves player (row:board) = moves ++ findMoves player board
-                               where moves = findMovesInRow player row 0 ++
-                                             reverseIndex (findMovesInRow player (reverse row) 0)
+findMoves :: Char -> [String] -> Int -> [(Int,Int)]
+findMoves player [] n = []
+findMoves player (row:board) n = zip moves (repeat n) ++ findMoves player board (n+1)
+                                 where moves = findMovesInRow player row 0 ++
+                                               reverseIndex (findMovesInRow player (reverse row) 0)
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
@@ -35,4 +35,4 @@ test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
                       findMovesInRow 'W' "...WB..." 0 == []
 
 test_findMoves :: Bool
-test_findMoves = findMoves 'W' ["...BW...","...WB..."] == [(2,0),(5,1)]
+test_findMoves = findMoves 'W' ["...BW...","...WB..."] 0 == [(2,0),(5,1)]
