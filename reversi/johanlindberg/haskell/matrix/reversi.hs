@@ -7,7 +7,7 @@ findMoves player (row:board) n = zip moves (repeat n) ++ findMoves player board 
                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
 cols :: [String] -> [String]
-cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..2]]
+cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..((length (head board))- 1)]]
 
 test_cols ::  Bool
 test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
