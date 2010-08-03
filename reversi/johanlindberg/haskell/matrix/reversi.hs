@@ -45,4 +45,7 @@ test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
                       findMovesInRow 'W' "...WB..." 0 == []
 
 test_findMoves :: Bool
-test_findMoves = findMoves 'W' ["...BW...","...WB..."] 0 == [(2,0),(5,1)]
+test_findMoves = findMoves 'W' ["........",
+                                "...BW...",
+                                "...WB...",
+                                "........"] 0 == [(2,1),(5,2),(3,0),(4,3)]
