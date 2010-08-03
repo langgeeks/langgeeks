@@ -6,6 +6,12 @@ findMoves player (row:board) n = zip moves (repeat n) ++ findMoves player board 
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
+cols :: [String] -> [String]
+cols board = board
+
+test_cols ::  Bool
+test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"]
+
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
 reverseIndex moves = map (\x -> 7 - x) moves
