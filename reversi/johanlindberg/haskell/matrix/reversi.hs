@@ -6,6 +6,9 @@ findMoves player (row:board) n = zip moves (repeat n) ++ findMoves player board 
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
+rows :: [String] -> [String]
+rows board = board
+
 cols :: [String] -> [String]
 cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..((length (head board))- 1)]]
 
