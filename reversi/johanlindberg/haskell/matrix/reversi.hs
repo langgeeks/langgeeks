@@ -2,17 +2,19 @@
 
 findAllMoves :: String -> IO ()
 findAllMoves filename = do contents <- readFile filename
-                           do putStrLn (show (findMoves (getPlayer contents) (getBoard contents)))
+                           putStrLn (show (findMoves (getPlayer contents) (getBoard contents)))
 
 getPlayer :: String -> Char
 getPlayer contents = head (head (drop 8 (lines contents)))
+-- head (head <s>) extracts the first Char of String <s>
 
 getBoard :: String -> [String]
 getBoard contents = take 8 (lines contents)
 
 findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player [] = []
-findMoves player board = findMovesR player (rows board) 0 ++ findMovesC player (cols board) 0
+findMoves player board = findMovesR player (rows board) 0 ++
+                         findMovesC player (cols board) 0
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n = []
@@ -47,6 +49,8 @@ findChain player [] pos     = False
 findChain player (x:xs) pos | x == player = pos /= 0
                             | x /= '.'    = findChain player xs (pos+1)
                             | otherwise   = False
+
+-- Unit tests
 
 test_getPlayer :: Bool
 test_getPlayer = getPlayer "\n\n\n\n\n\n\n\nW" == 'W'
