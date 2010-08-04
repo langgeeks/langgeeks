@@ -1,5 +1,7 @@
 -- Reversi kata for langgeeks
 
+import Test.HUnit
+
 findAllMoves :: String -> IO ()
 findAllMoves filename = do contents <- readFile filename
                            putStrLn (show (findMoves (getPlayer contents) (getBoard contents)))
@@ -53,48 +55,36 @@ findChain player (x:xs) pos | x == player = pos /= 0
 
 -- Unit tests
 
-test_getPlayer :: Bool
-test_getPlayer = getPlayer "\n\n\n\n\n\n\n\nW" == 'W'
+tests = TestList [TestCase (assertEqual "getPlayer"
+                            (getPlayer "\n\n\n\n\n\n\n\nW") 'W'),
+                  TestCase (assertEqual "getBoard"
+                            (getBoard "ABC\nDEF\nGHI\nJKL\nMNO\nPQR\nSTU\nVWX\nP")
+                            ["ABC","DEF","GHI","JKL","MNO","PQR","STU","VWX"]),
 
-test_getBoard :: Bool
-test_getBoard = getBoard "ABC\nDEF\nGHI\nJKL\nMNO\nPQR\nSTU\nVWX\nP" == ["ABC",
-                                                                         "DEF",
-                                                                         "GHI",
-                                                                         "JKL",
-                                                                         "MNO",
-                                                                         "PQR",
-                                                                         "STU",
-                                                                         "VWX"]
+                  TestCase (assertEqual "test_cols1"
+                            (cols ["ABC","DEF","GHI"])
+                            ["ADG","BEH","CFI"]),
+                  TestCase (assertEqual "test_cols2"
+                            (cols ["ABCD","EFGH","IJKL","MNOP"])
+                            ["AEIM","BFJN","CGKO","DHLP"]),
 
-test_cols ::  Bool
-test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
-            cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
+                  TestCase (assertEqual "test_findChain1" (findChain 'B' "WWB.." 0) True),
+                  TestCase (assertEqual "test_findChain2" (findChain 'B' "B.." 0) False),
+                  TestCase (assertEqual "test_findChain3" (findChain 'B' ".WWB.." 0) False),
+                  TestCase (assertEqual "test_findChain4" (findChain 'B' "..." 0) False),
+                  TestCase (assertEqual "test_findChain5" (findChain 'B' "W.." 0) False),
 
-test_findChain :: Bool
-test_findChain = findChain 'B' "WWB.." 0  == True  &&
-                 findChain 'B' "B.." 0    == False &&
-                 findChain 'B' ".WWB.." 0 == False &&
-                 findChain 'B' "..." 0    == False &&
-                 findChain 'B' "W.." 0    == False
+                  TestCase (assertEqual "test_findMovesInRow1" (findMovesInRow 'W' "...BW..." 0) [2]),
+                  TestCase (assertEqual "test_findMovesInRow2" (findMovesInRow 'W' ".BW..BW." 0) [0,4]),
+                  TestCase (assertEqual "test_findMovesInRow3" (findMovesInRow 'W' "...WB..." 0) []),
 
-test_findMovesInRow :: Bool
-test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
-                      findMovesInRow 'W' ".BW..BW." 0 == [0,4] &&
-                      findMovesInRow 'W' "...WB..." 0 == []
-
-test_findMoves :: Bool
-test_findMoves = findMoves 'W' ["........",
-                                "........",
-                                "........",
-                                "...BW...",
-                                "...WB...",
-                                "........",
-                                "........",
-                                "........"] == [(2,3),(5,4),(3,2),(4,5)]
-test_all :: Bool
-test_all = test_cols &&
-           test_findChain &&
-           test_findMovesInRow &&
-           test_findMoves &&
-           test_getPlayer &&
-           test_getBoard
+                  TestCase (assertEqual "findMoves"
+                            (findMoves 'W' ["........",
+                                            "........",
+                                            "........",
+                                            "...BW...",
+                                            "...WB...",
+                                            "........",
+                                            "........",
+                                            "........"])
+                            [(2,3),(5,4),(3,2),(4,5)]) ]
