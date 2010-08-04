@@ -22,10 +22,6 @@ rows board = board
 cols :: [String] -> [String]
 cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..((length (head board))- 1)]]
 
-test_cols ::  Bool
-test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
-            cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
-
 reverseIndex :: [Int] -> [Int]
 reverseIndex [] = []
 reverseIndex moves = map (\x -> 7 - x) moves
@@ -42,6 +38,10 @@ findChain player (x:xs) pos | x == player = pos /= 0
                             | x /= '.'    = findChain player xs (pos+1)
                             | otherwise   = False
 
+test_cols ::  Bool
+test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
+            cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
+
 test_findChain :: Bool
 test_findChain = findChain 'B' "WWB.." 0  == True  &&
                  findChain 'B' "B.." 0    == False &&
@@ -55,4 +55,16 @@ test_findMovesInRow = findMovesInRow 'W' "...BW..." 0 == [2] &&
                       findMovesInRow 'W' "...WB..." 0 == []
 
 test_findMoves :: Bool
-test_findMoves = findMoves 'W' ["........","........","........","...BW...","...WB...","........","........","........"] == [(2,3),(5,4),(3,2),(4,5)]
+test_findMoves = findMoves 'W' ["........",
+                                "........",
+                                "........",
+                                "...BW...",
+                                "...WB...",
+                                "........",
+                                "........",
+                                "........"] == [(2,3),(5,4),(3,2),(4,5)]
+test_all :: Bool
+test_all = test_cols &&
+           test_findChain &&
+           test_findMovesInRow &&
+           test_findMoves
