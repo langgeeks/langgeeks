@@ -1,8 +1,8 @@
 -- Reversi kata for langgeeks
 
-process :: String -> (Char, [String])
-process filename = do contents <- readFile filename
-                      return (getPlayer contents, getBoard contents)
+findAllMoves :: String -> IO ()
+findAllMoves filename = do contents <- readFile filename
+                           do putStrLn (show (findMoves (getPlayer contents) (getBoard contents)))
 
 getPlayer :: String -> Char
 getPlayer contents = head (head (drop 8 (lines contents)))
