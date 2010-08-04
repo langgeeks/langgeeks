@@ -5,8 +5,9 @@ findAllMoves filename = do contents <- readFile filename
                            putStrLn (show (findMoves (getPlayer contents) (getBoard contents)))
 
 getPlayer :: String -> Char
-getPlayer contents = head (head (drop 8 (lines contents)))
--- head (head <s>) extracts the first Char of String <s>
+getPlayer contents = firstCharOf playerRow
+                     where firstCharOf s = head (head s)
+                           playerRow = drop 8 (lines contents)
 
 getBoard :: String -> [String]
 getBoard contents = take 8 (lines contents)
