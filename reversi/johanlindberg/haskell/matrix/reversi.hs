@@ -1,5 +1,11 @@
 -- Reversi kata for langgeeks
 
+getPlayer :: String -> Char
+getPlayer contents = head (head (drop 8 (lines contents)))
+
+getBoard :: String -> [String]
+getBoard contents = take 8 (lines contents)
+
 findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player [] = []
 findMoves player board = findMovesR player (rows board) 0 ++ findMovesC player (cols board) 0
@@ -38,6 +44,19 @@ findChain player (x:xs) pos | x == player = pos /= 0
                             | x /= '.'    = findChain player xs (pos+1)
                             | otherwise   = False
 
+test_getPlayer :: Bool
+test_getPlayer = getPlayer "\n\n\n\n\n\n\n\nW" == 'W'
+
+test_getBoard :: Bool
+test_getBoard = getBoard "ABC\nDEF\nGHI\nJKL\nMNO\nPQR\nSTU\nVWX\nP" == ["ABC",
+                                                                         "DEF",
+                                                                         "GHI",
+                                                                         "JKL",
+                                                                         "MNO",
+                                                                         "PQR",
+                                                                         "STU",
+                                                                         "VWX"]
+
 test_cols ::  Bool
 test_cols = cols ["ABC","DEF","GHI"] == ["ADG","BEH","CFI"] &&
             cols ["ABCD","EFGH","IJKL","MNOP"] == ["AEIM","BFJN","CGKO","DHLP"]
@@ -67,4 +86,6 @@ test_all :: Bool
 test_all = test_cols &&
            test_findChain &&
            test_findMovesInRow &&
-           test_findMoves
+           test_findMoves &&
+           test_getPlayer &&
+           test_getBoard
