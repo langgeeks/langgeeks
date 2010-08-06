@@ -15,18 +15,18 @@ getBoard :: String -> [String]
 getBoard contents = take 8 (lines contents)
 
 findMoves :: Char -> [String] -> [(Int,Int)]
-findMoves player [] = []
+findMoves player []    = []
 findMoves player board = findMovesR player (rows board) 0 ++
                          findMovesC player (cols board) 0
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
-findMovesR player [] n = []
+findMovesR player [] n          = []
 findMovesR player (row:board) n = zip moves (repeat n) ++ findMovesR player board (n+1)
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
 findMovesC :: Char -> [String] -> Int -> [(Int,Int)] 
-findMovesC player [] n = []
+findMovesC player [] n          = []
 findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player board (n+1)
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
@@ -35,14 +35,16 @@ rows :: [String] -> [String]
 rows board = board
 
 cols :: [String] -> [String]
-cols board = [[head (snd (splitAt n row)) | row <- board] | n <- [0..((length (head board))- 1)]]
+cols board = [[nth n row | row <- board] | n <- [0..sizeOf board]]
+             where nth n row = head (snd (splitAt n row))
+                   sizeOf board = ((length (head board))- 1)
 
 reverseIndex :: [Int] -> [Int]
-reverseIndex [] = []
+reverseIndex []    = []
 reverseIndex moves = map (\x -> 7 - x) moves
 
 findMovesInRow :: Char -> String -> Int -> [Int]
-findMovesInRow player [] pos = []
+findMovesInRow player [] pos     = []
 findMovesInRow player (x:xs) pos | x == '.'
                                    && findChain player xs 0 = [pos] ++ findMovesInRow player xs (pos+1)
                                  | otherwise                = findMovesInRow player xs (pos+1)
