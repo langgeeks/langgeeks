@@ -35,9 +35,8 @@ rows :: [String] -> [String]
 rows board = board
 
 cols :: [String] -> [String]
-cols board = [[nth n row | row <- board] | n <- [0..sizeOf board]]
-             where nth n row = head (snd (splitAt n row))
-                   sizeOf board = ((length (head board))- 1)
+cols board = [[row !! n | row <- board] | n <- [0..sizeOf board]]
+             where sizeOf board = ((length (head board))- 1)
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
