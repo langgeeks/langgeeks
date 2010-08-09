@@ -1,5 +1,6 @@
 -- Reversi kata for langgeeks
 
+import Data.List (transpose)
 import Test.HUnit
 
 findAllMoves :: String -> IO ()
@@ -16,8 +17,8 @@ getBoard contents = take 8 (lines contents)
 
 findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player []    = []
-findMoves player board = findMovesR player (rows board) 0 ++
-                         findMovesC player (cols board) 0
+findMoves player board = findMovesR player board 0 ++
+                         findMovesC player (transpose board) 0
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n          = []
@@ -30,13 +31,6 @@ findMovesC player [] n          = []
 findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player board (n+1)
                                  where moves = findMovesInRow player row 0 ++
                                                reverseIndex (findMovesInRow player (reverse row) 0)
-
-rows :: [String] -> [String]
-rows board = board
-
-cols :: [String] -> [String]
-cols board = [[row !! n | row <- board] | n <- [0..sizeOf board]]
-             where sizeOf board = ((length (head board))- 1)
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
@@ -61,13 +55,6 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                   TestCase (assertEqual "getBoard"
                             (getBoard "ABC\nDEF\nGHI\nJKL\nMNO\nPQR\nSTU\nVWX\nP")
                             ["ABC","DEF","GHI","JKL","MNO","PQR","STU","VWX"]),
-
-                  TestCase (assertEqual "test_cols1"
-                            (cols ["ABC","DEF","GHI"])
-                            ["ADG","BEH","CFI"]),
-                  TestCase (assertEqual "test_cols2"
-                            (cols ["ABCD","EFGH","IJKL","MNOP"])
-                            ["AEIM","BFJN","CGKO","DHLP"]),
 
                   TestCase (assertEqual "test_findChain1" (findChain 'B' "WWB.." 0) True),
                   TestCase (assertEqual "test_findChain2" (findChain 'B' "B.." 0) False),
