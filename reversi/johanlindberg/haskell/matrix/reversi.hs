@@ -17,20 +17,36 @@ getBoard contents = take 8 (lines contents)
 
 findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player []    = []
-findMoves player board = findMovesR player board 0 ++
-                         findMovesC player (transpose board) 0
+findMoves player board = findMovesR player board 0 ++             -- board as rows
+                         findMovesC player (transpose board) 0 ++ --  -"-  as columns
+                         findMovesDL player (dl board) 0 ++       --  -"-  as slices diagonally from left
+                         findMovesDR player (dr board) 0          --  -"-    -"-     diagonally from right 
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n          = []
 findMovesR player (row:board) n = zip moves (repeat n) ++ findMovesR player board (n+1)
-                                 where moves = findMovesInRow player row 0 ++
-                                               reverseIndex (findMovesInRow player (reverse row) 0)
+                                  where moves = findMovesInRow player row 0 ++
+                                                reverseIndex (findMovesInRow player (reverse row) 0)
 
 findMovesC :: Char -> [String] -> Int -> [(Int,Int)] 
 findMovesC player [] n          = []
 findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player board (n+1)
-                                 where moves = findMovesInRow player row 0 ++
-                                               reverseIndex (findMovesInRow player (reverse row) 0)
+                                  where moves = findMovesInRow player row 0 ++
+                                                reverseIndex (findMovesInRow player (reverse row) 0)
+
+findMovesDL :: Char -> [String] -> Int -> [(Int,Int)]
+findMovesDL player [] n          = []
+findMovesDL player (row:board) n = []
+
+findMovesDR :: Char -> [String] -> Int -> [(Int,Int)]
+findMovesDR player [] n          = []
+findMovesDR player (row:board) n = []
+
+dl :: [String] -> [String]
+dl board = board
+
+dr :: [String] -> [String]
+dr board = board
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
