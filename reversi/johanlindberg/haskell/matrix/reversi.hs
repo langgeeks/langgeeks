@@ -91,9 +91,9 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                   TestCase (assertEqual "test_findMovesInRow3" (findMovesInRow 'W' "...WB..." 0) []),
 
                   TestCase (assertEqual "test_dl"
-                            (dl ["FGHIJ678",
-                                 "EFGHIJ78",
-                                 "DEFGHIJ8",
+                            (dl ["FGHIJK78",
+                                 "EFGHIJK8",
+                                 "DEFGHIJK",
                                  "CDEFGHIJ",
                                  "BCDEFGHI",
                                  "ABCDEFGH",
