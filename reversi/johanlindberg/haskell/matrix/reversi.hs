@@ -42,6 +42,10 @@ findMovesDR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesDR player [] n          = []
 findMovesDR player (row:board) n = []
 
+makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
+makeSlice (x,y) (dx,dy) | x < 8 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
+                        | otherwise      = []
+
 dl :: [String] -> [String]
 dl board = board
 
@@ -94,6 +98,10 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                             ["AAA","BBBB","CCCCC","DDDDDD",
                              "EEEEEEE","FFFFFFFF","GGGGGGG",
                              "HHHHHH","IIIII","JJJJ","KKK"]),
+
+                  TestCase (assertEqual "makeSlice"
+                            (makeSlice (0,0) (1,1))
+                            [(0,0),(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7)]),
 
                   TestCase (assertEqual "findMoves"
                             (findMoves 'W' ["........",
