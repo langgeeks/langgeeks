@@ -46,8 +46,12 @@ makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
 makeSlice (x,y) (dx,dy) | x < 8 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
                         | otherwise      = []
 
+getPosition :: [String] -> (Int,Int) -> Char
+getPosition board (x,y) = (board !! y) !! x 
+
 dl :: [String] -> [String]
-dl board = board
+dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- [(0,5),(0,4),(0,3),(0,2),(0,1),(0,0),
+                                                                        (1,0),(2,0),(3,0),(4,0),(5,0)]]
 
 dr :: [String] -> [String]
 dr board = board
