@@ -82,6 +82,19 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                   TestCase (assertEqual "test_findMovesInRow2" (findMovesInRow 'W' ".BW..BW." 0) [0,4]),
                   TestCase (assertEqual "test_findMovesInRow3" (findMovesInRow 'W' "...WB..." 0) []),
 
+                  TestCase (assertEqual "test_dl"
+                            (dl ["FGHIJ678",
+                                 "EFGHIJ78",
+                                 "DEFGHIJ8",
+                                 "CDEFGHIJ",
+                                 "BCDEFGHI",
+                                 "ABCDEFGH",
+                                 "1ABCDEFG",
+                                 "12ABCDEF"])
+                            ["AAA","BBBB","CCCCC","DDDDDD",
+                             "EEEEEEE","FFFFFFFF","GGGGGGG",
+                             "HHHHHH","IIIII","JJJJ","KKK"]),
+
                   TestCase (assertEqual "findMoves"
                             (findMoves 'W' ["........",
                                             "........",
