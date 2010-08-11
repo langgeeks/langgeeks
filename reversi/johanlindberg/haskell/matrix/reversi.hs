@@ -43,8 +43,9 @@ findMovesDR player [] n          = []
 findMovesDR player (row:board) n = []
 
 makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
-makeSlice (x,y) (dx,dy) | x < 8 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
-                        | otherwise      = []
+makeSlice (x,y) (dx,dy) | x >= 0 && x < 8 &&
+                          y >= 0 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
+                        | otherwise       = []
 
 getPosition :: [String] -> (Int,Int) -> Char
 getPosition board (x,y) = (board !! y) !! x 
@@ -54,7 +55,8 @@ dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- [(0,5),(0
                                                                         (1,0),(2,0),(3,0),(4,0),(5,0)]]
 
 dr :: [String] -> [String]
-dr board = board
+dr board = [map (getPosition board) (makeSlice start (-1,1)) | start <- [(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),
+                                                                          (7,1),(7,2),(7,3),(7,4),(7,5)]]
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
