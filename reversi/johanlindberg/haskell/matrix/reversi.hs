@@ -20,7 +20,7 @@ findMoves player []    = []
 findMoves player board = findMovesR player board 0 ++             -- board as rows
                          findMovesC player (transpose board) 0 ++ --  -"-  as columns
                          findMovesDL player (dl board) 0 ++       --  -"-  as slices diagonally from left
-                         findMovesDR player (dr board) 0          --  -"-    -"-     diagonally from right 
+                         findMovesDR player (dr board) 0          --  -"-     -"-    diagonally from right 
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n          = []
@@ -43,20 +43,26 @@ findMovesDR player [] n          = []
 findMovesDR player (row:board) n = []
 
 makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
-makeSlice (x,y) (dx,dy) | x >= 0 && x < 8 &&
-                          y >= 0 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
+makeSlice (x,y) (dx,dy) | x >= 0
+                          && x < 8
+                          && y >= 0
+                          && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
                         | otherwise       = []
 
 getPosition :: [String] -> (Int,Int) -> Char
 getPosition board (x,y) = (board !! y) !! x 
 
+dlstart :: [(Int,Int)]
+dlstart = [(0,5),(0,4),(0,3),(0,2),(0,1),(0,0),(1,0),(2,0),(3,0),(4,0),(5,0)]
+
 dl :: [String] -> [String]
-dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- [(0,5),(0,4),(0,3),(0,2),(0,1),(0,0),
-                                                                        (1,0),(2,0),(3,0),(4,0),(5,0)]]
+dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- dlstart]
+
+drstart :: [(Int,Int)]
+drstart = [(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(7,1),(7,2),(7,3),(7,4),(7,5)]
 
 dr :: [String] -> [String]
-dr board = [map (getPosition board) (makeSlice start (-1,1)) | start <- [(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),
-                                                                          (7,1),(7,2),(7,3),(7,4),(7,5)]]
+dr board = [map (getPosition board) (makeSlice start (-1,1)) | start <- drstart]
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
