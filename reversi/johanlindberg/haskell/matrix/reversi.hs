@@ -102,6 +102,18 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                             ["AAA","BBBB","CCCCC","DDDDDD",
                              "EEEEEEE","FFFFFFFF","GGGGGGG",
                              "HHHHHH","IIIII","JJJJ","KKK"]),
+                  TestCase (assertEqual "test_dr"
+                            (dr ["12ABCDEF",
+                                 "1ABCDEFG",
+                                 "ABCDEFGH",
+                                 "BCDEFGHI",
+                                 "CDEFGHIJ",
+                                 "DEFGHIJK",
+                                 "EFGHIJK8",
+                                 "FGHIJK78"])
+                            ["AAA","BBBB","CCCCC","DDDDDD",
+                             "EEEEEEE","FFFFFFFF","GGGGGGG",
+                             "HHHHHH","IIIII","JJJJ","KKK"]),
 
                   TestCase (assertEqual "makeSlice"
                             (makeSlice (0,0) (1,1))
