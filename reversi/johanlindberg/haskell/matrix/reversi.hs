@@ -19,8 +19,8 @@ findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player []    = []
 findMoves player board = findMovesR player board 0 ++             -- board as rows
                          findMovesC player (transpose board) 0 ++ --  -"-  as columns
-                         findMovesDL player (dl board) 0 ++       --  -"-  as slices diagonally from left
-                         findMovesDR player (dr board) 0          --  -"-     -"-    diagonally from right 
+                         findMovesDL player (dl board) dlstart ++ --  -"-  as slices diagonally from left
+                         findMovesDR player (dr board) drstart    --  -"-     -"-    diagonally from right 
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n          = []
@@ -34,13 +34,17 @@ findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player boar
                                   where moves = findMovesInRow player row 0 ++
                                                 reverseIndex (findMovesInRow player (reverse row) 0)
 
-findMovesDL :: Char -> [String] -> Int -> [(Int,Int)]
-findMovesDL player [] n          = []
-findMovesDL player (row:board) n = []
+findMovesDL :: Char -> [String] -> [(Int,Int)] -> [(Int,Int)]
+findMovesDL player [] ps              = []
+findMovesDL player (row:board) (p:ps) = pos ++ rpos ++ findMovesDL player board ps
+                                        where pos  = map (\n -> (makeSlice p (1,1)) !! n)
+                                                     (findMovesInRow player row 0)
+                                              rpos = map (\n -> (reverse (makeSlice p (1,1))) !! n)
+                                                     (findMovesInRow player (reverse row) 0)
 
-findMovesDR :: Char -> [String] -> Int -> [(Int,Int)]
-findMovesDR player [] n          = []
-findMovesDR player (row:board) n = []
+findMovesDR :: Char -> [String] -> [(Int,Int)] -> [(Int,Int)]
+findMovesDR player [] ps              = []
+findMovesDR player (row:board) (p:ps) = []
 
 makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
 makeSlice (x,y) (dx,dy) | x >= 0
