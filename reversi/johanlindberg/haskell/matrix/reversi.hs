@@ -19,8 +19,8 @@ findMoves :: Char -> [String] -> [(Int,Int)]
 findMoves player []    = []
 findMoves player board = findMovesR player board 0 ++             -- board as rows
                          findMovesC player (transpose board) 0 ++ --  -"-  as columns
-                         findMovesDL player (dl board) 0 ++       --  -"-  as slices diagonally from left
-                         findMovesDR player (dr board) 0          --  -"-    -"-     diagonally from right 
+                         findMovesDL player (dl board) dlstart ++ --  -"-  as slices diagonally from left
+                         findMovesDR player (dr board) drstart    --  -"-     -"-    diagonally from right 
 
 findMovesR :: Char -> [String] -> Int -> [(Int,Int)]
 findMovesR player [] n          = []
@@ -34,29 +34,44 @@ findMovesC player (row:board) n = zip (repeat n) moves ++ findMovesC player boar
                                   where moves = findMovesInRow player row 0 ++
                                                 reverseIndex (findMovesInRow player (reverse row) 0)
 
-findMovesDL :: Char -> [String] -> Int -> [(Int,Int)]
-findMovesDL player [] n          = []
-findMovesDL player (row:board) n = []
+findMovesDL :: Char -> [String] -> [(Int,Int)] -> [(Int,Int)]
+findMovesDL player [] ps              = []
+findMovesDL player (row:board) (p:ps) = pos ++ rpos ++ findMovesDL player board ps
+                                        where pos  = map (\n -> (makeSlice p (1,1)) !! n)
+                                                     (findMovesInRow player row 0)
+                                              rpos = map (\n -> (reverse (makeSlice p (1,1))) !! n)
+                                                     (findMovesInRow player (reverse row) 0)
 
-findMovesDR :: Char -> [String] -> Int -> [(Int,Int)]
-findMovesDR player [] n          = []
-findMovesDR player (row:board) n = []
+findMovesDR :: Char -> [String] -> [(Int,Int)] -> [(Int,Int)]
+findMovesDR player [] ps              = []
+findMovesDR player (row:board) (p:ps) = pos ++ rpos ++ findMovesDR player board ps
+                                        where pos  = map (\n -> (makeSlice p (-1,1)) !! n)
+                                                     (findMovesInRow player row 0)
+                                              rpos = map (\n -> (reverse (makeSlice p (-1,1))) !! n)
+                                                     (findMovesInRow player (reverse row) 0)
+
 
 makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
-makeSlice (x,y) (dx,dy) | x >= 0 && x < 8 &&
-                          y >= 0 && y < 8 = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
-                        | otherwise       = []
+makeSlice (x,y) (dx,dy) | x >= 0
+                          && x < 8
+                          && y >= 0
+                          && y < 8  = [(x,y)] ++ makeSlice (x+dx,y+dy) (dx,dy)
+                        | otherwise = []
 
 getPosition :: [String] -> (Int,Int) -> Char
 getPosition board (x,y) = (board !! y) !! x 
 
+dlstart :: [(Int,Int)]
+dlstart = [(0,5),(0,4),(0,3),(0,2),(0,1),(0,0),(1,0),(2,0),(3,0),(4,0),(5,0)]
+
 dl :: [String] -> [String]
-dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- [(0,5),(0,4),(0,3),(0,2),(0,1),(0,0),
-                                                                        (1,0),(2,0),(3,0),(4,0),(5,0)]]
+dl board = [map (getPosition board) (makeSlice start (1,1)) | start <- dlstart]
+
+drstart :: [(Int,Int)]
+drstart = [(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(7,1),(7,2),(7,3),(7,4),(7,5)]
 
 dr :: [String] -> [String]
-dr board = [map (getPosition board) (makeSlice start (-1,1)) | start <- [(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),
-                                                                          (7,1),(7,2),(7,3),(7,4),(7,5)]]
+dr board = [map (getPosition board) (makeSlice start (-1,1)) | start <- drstart]
 
 reverseIndex :: [Int] -> [Int]
 reverseIndex []    = []
@@ -141,4 +156,15 @@ tests = TestList [TestCase (assertEqual "getPlayer"
                                             "........",
                                             "........"])
                             [(2,4),(4,2),
-                             (2,2)]) ]
+                             (2,2)]),
+                  TestCase (assertEqual "findMoves"
+                            (findMoves 'W' ["........",
+                                            "........",
+                                            "........",
+                                            "...WW...",
+                                            "...BB...",
+                                            "........",
+                                            "........",
+                                            "........"])
+                            [(3,5),(4,5),
+                             (5,5),(2,5)]) ]
