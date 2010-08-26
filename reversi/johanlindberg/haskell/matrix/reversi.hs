@@ -44,7 +44,12 @@ findMovesDL player (row:board) (p:ps) = pos ++ rpos ++ findMovesDL player board 
 
 findMovesDR :: Char -> [String] -> [(Int,Int)] -> [(Int,Int)]
 findMovesDR player [] ps              = []
-findMovesDR player (row:board) (p:ps) = []
+findMovesDR player (row:board) (p:ps) = pos ++ rpos ++ findMovesDR player board ps
+                                        where pos  = map (\n -> (makeSlice p (-1,1)) !! n)
+                                                     (findMovesInRow player row 0)
+                                              rpos = map (\n -> (reverse (makeSlice p (-1,1))) !! n)
+                                                     (findMovesInRow player (reverse row) 0)
+
 
 makeSlice :: (Int,Int) -> (Int,Int) -> [(Int,Int)]
 makeSlice (x,y) (dx,dy) | x >= 0
