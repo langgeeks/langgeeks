@@ -207,11 +207,10 @@ class ReversiSuite extends AssertionsForJUnit {
       "      W              \n");
 
 
-    board.parseBoard(game)
-    board.evaluateColumnsLeftToRight
+    val theBoard = board.parseBoard(game)
+    val squares = board.evaluateColumnsLeftToRight(theBoard)
     val expected = "O...W..W\nB...B..B\nW...O..B\n.......O\nW"
-    assertEquals(expected, board.toString)
-
+    assertEquals(expected, board.toString(squares))
   }
 
   @Test
@@ -223,11 +222,46 @@ class ReversiSuite extends AssertionsForJUnit {
       "      .....WB.       \n" +
       "      W              \n");
 
-    board.parseBoard(game)
-    board.evaluate
-    val expected = "O.OBW..W\nB..WBO.B\nWBBOO..B\n.....WBO\nW"
-    assertEquals(expected, board.toString)
+    val theBoard = board.parseBoard(game)
+    var squares = board.evaluateRowsTopDown(theBoard)
+    squares = board.evaluateColumnsLeftToRight(squares)
 
+    val expected = "O.OBW..W\nB..WBO.B\nWBBOO..B\n.....WBO\nW"
+    assertEquals(expected, board.toString(squares))
+  }
+
+  @Test
+  def diagonalsShouldReturnWhiteDiagonals() {
+    val game = (
+      "      WWWW       \n" +
+      "      WWWW       \n" +
+      "      WWWW       \n" +
+      "      WWWW       \n" +
+      "      W              \n");
+
+    val theBoard = board.parseBoard(game)
+    assertEquals(4, theBoard.size)
+    val diagonals = board.diagonals(theBoard)
+    assertEquals(7, diagonals.size)
+    val expected = "W\nWW\nWWW\nWWWW\nWWW\nWW\nW\nW"
+    assertEquals(expected, board.toString(diagonals))
+  }
+
+  @Test
+  def diagonalsShouldReturnDiagonals() {
+    val game = (
+      "      WBBW       \n" +
+      "      WBBW       \n" +
+      "      WBBW       \n" +
+      "      WBBW       \n" +
+      "      W              \n");
+
+    val theBoard = board.parseBoard(game)
+    assertEquals(4, theBoard.size)
+    val diagonals = board.diagonals(theBoard)
+    assertEquals(7, diagonals.size)
+    val expected = "W\nWB\nWBB\nWBBW\nBBW\nBW\nW\nW"
+    assertEquals(expected, board.toString(diagonals))
   }
 
 }

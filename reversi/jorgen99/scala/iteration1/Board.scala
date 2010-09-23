@@ -1,3 +1,4 @@
+import scala.collection.mutable.ListBuffer
 import Square._
 
 class Board {
@@ -44,21 +45,18 @@ class Board {
   }
 
   def evaluate() {
-    squares = evaluateRowsTopDown
-    squares = evaluateColumnsLeftToRight
+    squares = evaluateRowsTopDown(squares)
+    squares = evaluateColumnsLeftToRight(squares)
   }
 
-  def evaluateRowsTopDown() = {
-    squares.map { row =>
+  def evaluateRowsTopDown(board: Array[Array[Square.Value]]) = {
+    board.map { row =>
       evaluateRow(evaluateRow(row).reverse).reverse
     }
   }
 
-  def evaluateColumnsLeftToRight() = {
-    squares = squares.transpose
-    squares = evaluateRowsTopDown
-    squares = squares.transpose
-    squares
+  def evaluateColumnsLeftToRight(board: Array[Array[Square.Value]]) = {
+    evaluateRowsTopDown(board.transpose).transpose
   }
 
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
@@ -85,7 +83,37 @@ class Board {
     return possibleMove(row.tail, false)
   }
 
+  def diagonals(squares: Array[Array[Square.Value]]) = {
+    val size = squares.size - 1
+    val reply: ListBuffer[Array[Square.Value]] = ListBuffer()
+    
+    for (i <- 0 to size) {    
+      val row: ListBuffer[Square.Value] = ListBuffer()
+      var x = i                
+      var y = 0                
+      while(x >= 0) {          
+        row += squares(x)(y)
+        x -= 1                   
+        y += 1                   
+      }
+      reply += row.toArray
+    }
+    for (i <- 0 to size - 1) {
+      val row: ListBuffer[Square.Value] = ListBuffer()
+      for (x <- size until i by -1) {
+        var y = size - x + i + 1
+        row += squares(x)(y)
+      }
+      reply += row.toArray
+    }
+    reply.toArray
+  }
+
   override def toString() = {
+    toString(squares)
+  }
+  
+  def toString(squares: Array[Array[Square.Value]]) = {
     val str = squares.map {
       _.mkString + "\n"
     }.mkString
@@ -94,6 +122,6 @@ class Board {
     else
       str
   }
-  
+
 }
 
