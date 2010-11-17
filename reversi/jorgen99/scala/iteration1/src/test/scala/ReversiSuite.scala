@@ -1,4 +1,5 @@
-import org.scalatest.junit.AssertionsForJUnit
+import org.scalatest.junit.JUnitSuite
+//import org.scalatest.junit.AssertionsForJUnit
 import org.junit.Test
 import org.junit.Ignore
 import org.junit.Before
@@ -6,7 +7,8 @@ import org.junit.Assert._
 
 import Square._
 
-class ReversiSuite extends AssertionsForJUnit {
+class ReversiSuite extends JUnitSuite {
+//class ReversiSuite extends AssertionsForJUnit {
   var board: Board = _
 
   @Before
@@ -142,7 +144,7 @@ class ReversiSuite extends AssertionsForJUnit {
 
   @Test
   def blackHavePossibleMovesToTheLeftAndToTheRight() {
-    val row = board.parseBoard("...WBW..\n" + "B")
+    val row = board.parseBoard("...WBW..\nB")
     board.evaluate
     val expected = board.createRow("..OWBWO.")
     assertEquals(expected.mkString, board.squares(0).mkString)
@@ -231,7 +233,7 @@ class ReversiSuite extends AssertionsForJUnit {
   }
 
   @Test
-  def diagonalsShouldReturnWhiteDiagonals() {
+  def diagonalsShouldReturTheCorrectSize() {
     val game = (
       "      WWWW       \n" +
       "      WWWW       \n" +
@@ -243,8 +245,6 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(4, theBoard.size)
     val diagonals = board.diagonals(theBoard)
     assertEquals(7, diagonals.size)
-    val expected = "W\nWW\nWWW\nWWWW\nWWW\nWW\nW\nW"
-    assertEquals(expected, board.toString(diagonals))
   }
 
   @Test
@@ -264,4 +264,100 @@ class ReversiSuite extends AssertionsForJUnit {
     assertEquals(expected, board.toString(diagonals))
   }
 
+  @Test
+  def diagonalsShouldReturnSingleLineOk() {
+    val game = "WWWWW\nW"
+
+    val theBoard = board.parseBoard(game)
+    assertEquals(1, theBoard.size)
+    val diagonals = board.diagonals(theBoard)
+    println(diagonals)
+    assertEquals(1, diagonals.size)
+    val expected = "W\nW\nW\nW\nW\nW"
+    assertEquals(expected, board.toString(diagonals))
+  }
+
+  @Test
+  def shouldEvaluateStartPosition() {
+    val game = (
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ...BW...     \n" +
+      "     ...WB...     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     ........     \n" +
+      "     B              "
+    )
+    board.parseBoard(game)
+    board.evaluate
+
+    val expected = "........\n........\n....O...\n...BWO..\n..OWB...\n...O....\n........\n........\nB"
+    assertEquals(expected, board.toString)
+  }
+
+  @Test
+  def shouldEvaluateDiagonal() {
+    val game = (
+      "     ....     \n" +
+      "     .B..     \n" +
+      "     ..B.     \n" +
+      "     ...W     \n" +
+      "     W              "
+    )
+    board.parseBoard(game)
+    board.evaluate
+
+    val expected = "O...\n.B..\n..B.\n...W\nW"
+    assertEquals(expected, board.toString)
+  }
+
+  @Test
+  @Ignore
+  def shouldEvaluateTwoDiagonals() {
+    val game = (
+      "     ...W     \n" +
+      "     .BB.     \n" +
+      "     .BB.     \n" +
+      "     ...W     \n" +
+      "     W              "
+    )
+    board.parseBoard(game)
+    board.evaluate
+
+    val expected = "O..W\n.BB.\n.BB.\nO..W\nW"
+    assertEquals(expected, board.toString)
+  }
+
+  @Test
+  @Ignore
+  def finalAcceptanceTestShouldEvaluateOk() {
+    val game = (
+      "     ..BB....     \n" +
+      "     .WWWB...     \n" +
+      "     .WWWBW..     \n" +
+      "     ...BW...     \n" +
+      "     ...WB...     \n" +
+      "     ....W...     \n" +
+      "     ..BWW...     \n" +
+      "     ........     \n" +
+      "     B              "
+    )
+    board.parseBoard(game)
+    board.evaluate
+ 
+// O.BB....
+// OWWWB...
+// OWWWBWO.
+// O.OBWO..
+// ..OWBO..
+// ....W...
+// ..BWWO..
+// ....O...
+// B
+
+    val expected = "O.BB....\nOWWWB...\nOWWWBWO.\nO.OBWO..\n..OWBO..\n....W...\n..BWWO..\n....O...\nB"
+    assertEquals(expected, board.toString)
+  }
 }
