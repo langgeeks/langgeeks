@@ -1,3 +1,4 @@
+import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.ListBuffer
 import Square._
 
@@ -46,14 +47,14 @@ class Board {
 
   def evaluate() {
     squares = evaluateRowsTopDown(squares)
+    println(toString)
+    println
     squares = evaluateColumnsLeftToRight(squares)
-//    squares = evaluateDiagonals(squares)
-  }
-
-  def evaluateDiagonals(board: Array[Array[Square.Value]]) = {
-    diagonals(board).map { row =>
-      evaluateRow(evaluateRow(row).reverse).reverse
-    }
+    println(toString)
+    println
+    squares = evaluateDiagonals(squares)
+    println(toString)
+    println
   }
 
   def evaluateRowsTopDown(board: Array[Array[Square.Value]]) = {
@@ -64,6 +65,42 @@ class Board {
 
   def evaluateColumnsLeftToRight(board: Array[Array[Square.Value]]) = {
     evaluateRowsTopDown(board.transpose).transpose
+  }
+
+  def evaluateDiagonals(board: Array[Array[Square.Value]]) = {
+    val leftToRight = evaluateDiagonally(board)
+    val turned = clockwise(leftToRight)
+    val upAndDown = evaluateDiagonally(turned)
+    counterClockwise(upAndDown)
+  }
+
+  def evaluateDiagonally(board: Array[Array[Square.Value]]) = {
+    val d = diagonals(board).map { row =>
+      evaluateRow(evaluateRow(row).reverse).reverse
+    }
+    backToMatrix(d)
+  }
+
+  def backToMatrix(diagonals: Array[Array[Square.Value]], matrix:ArrayBuffer[Array[Square.Value]] = new ArrayBuffer()):Array[Array[Square.Value]] = {
+    if(diagonals.isEmpty)
+      return matrix.toArray
+    val r = rowFrom(diagonals)
+    matrix += r
+    val stripped = stripAwayRowFrom(diagonals)
+    backToMatrix(stripped, matrix)
+  }
+
+  def rowFrom(diagonals: Array[Array[Square.Value]]) = {
+    for(i <- 0 until squares.size) yield diagonals(i).last
+  }.toArray
+
+  def stripAwayRowFrom(diagonals: Array[Array[Square.Value]]) = {
+    val r = new ArrayBuffer[Array[Square.Value]]()
+    for(i <- 0 until diagonals.size)  {
+      if(i >= squares.size ) r += diagonals(i)
+      else if(diagonals(i).init.size != 0) r += diagonals(i).init
+    }
+    r.toArray
   }
 
   def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
@@ -115,6 +152,18 @@ class Board {
     }
     reply.toArray
   }
+
+  def clockwise(squares: Array[Array[Square.Value]]) = {
+    for (i <- 0 until squares.size) yield {
+      for(j <- squares.size -1 to 0 by -1) yield squares(j)(i)
+    }.toArray
+  }.toArray
+
+  def counterClockwise(squares: Array[Array[Square.Value]]) = {
+    for (i <- squares.size - 1 to 0 by -1) yield {
+      for(j <- 0 until squares.size) yield squares(j)(i)
+    }.toArray
+  }.toArray
 
   override def toString() = {
     toString(squares)
