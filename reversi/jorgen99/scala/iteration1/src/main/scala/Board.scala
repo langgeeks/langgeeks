@@ -47,14 +47,8 @@ class Board {
 
   def evaluate() {
     squares = evaluateRowsTopDown(squares)
-    println(toString)
-    println
     squares = evaluateColumnsLeftToRight(squares)
-    println(toString)
-    println
     squares = evaluateDiagonals(squares)
-    println(toString)
-    println
   }
 
   def evaluateRowsTopDown(board: Array[Array[Square.Value]]) = {

@@ -143,21 +143,19 @@ class ReversiSuite extends JUnitSuite {
   }
 
   @Test
-  @Ignore
   def blackHavePossibleMovesToTheLeftAndToTheRight() {
-    val row = board.parseBoard("...WBW..\nB")
-    board.evaluate
+    val squares = board.parseBoard("...WBW..\nB")
+    val evaluated = board.evaluateRowsTopDown(squares)
     val expected = board.createRow("..OWBWO.")
-    assertEquals(expected.mkString, board.squares(0).mkString)
+    assertEquals(expected.mkString, evaluated(0).mkString)
   }
 
   @Test
-  @Ignore
   def blackHavePossibleMovesToTheLeftAndToTheRightWithMoreThanOneBlackInbetween() {
-    val row = board.parseBoard(".BBBWB..\n" + "W")
-    board.evaluate
+    val squares = board.parseBoard(".BBBWB..\n" + "W")
+    val evaluated = board.evaluateRowsTopDown(squares)
     val expected = board.createRow("OBBBWBO.")
-    assertEquals(expected.mkString, board.squares(0).mkString)
+    assertEquals(expected.mkString, evaluated(0).mkString)
   }
 
   @Test
@@ -184,22 +182,6 @@ class ReversiSuite extends JUnitSuite {
     board.parseBoard(game)
     val expected = "W.......\n.WB.W...\n..BB.B..\n..BWBW..\n..BBW...\n.BBBWB..\n....W.B.\n........\nW"
     assertEquals(expected, board.toString)
-  }
-
-  @Test
-  @Ignore
-  def evaluateBoardTopDown() {
-    val game = (
-      "       ..WB....      \n" +
-      "       .....BW.      \n" +
-      "       WBB.....      \n" +
-      "       W             \n");
-
-    board.parseBoard(game)
-    board.evaluate
-    val expected = "..WBO...|....OBW.|WBBO....|W"
-    assertEquals(expected, barString(board.squares))
-
   }
 
   def barString(board: Array[Array[Square.Value]]) = {
@@ -289,20 +271,6 @@ class ReversiSuite extends JUnitSuite {
     val diagonals = board.diagonals(theBoard)
     assertEquals(7, diagonals.size)
     val expected = "W\nWB\nWBB\nWBBW\nBBW\nBW\nW\nW"
-    assertEquals(expected, board.toString(diagonals))
-  }
-
-  @Test
-  @Ignore
-  def diagonalsShouldReturnSingleLineOk() {
-    val game = "WWWWW\nW"
-    val theBoard = board.parseBoard(game)
-    assertEquals(1, theBoard.size)
-
-    val diagonals = board.diagonals(theBoard)
-    println(diagonals)
-    assertEquals(1, diagonals.size)
-    val expected = "W\nW\nW\nW\nW\nW"
     assertEquals(expected, board.toString(diagonals))
   }
 
@@ -413,7 +381,6 @@ class ReversiSuite extends JUnitSuite {
       "     B              "
     )
     board.parseBoard(game)
-    println(board)
     board.evaluate
  
 // O.BB....
@@ -426,7 +393,7 @@ class ReversiSuite extends JUnitSuite {
 // ....O...
 // B
 
-    val apa = "O.BB....|OWWWB...|OWWWBWO.|O.OBWOO.|..OWB...|...OW...|..BWWO..|....O..."
-    assertEquals(apa, barString(board.squares))
+    val expected = "O.BB....|OWWWB...|OWWWBWO.|O.OBWOO.|..OWB...|...OW...|..BWWO..|....O..."
+    assertEquals(expected, barString(board.squares))
   }
 }
