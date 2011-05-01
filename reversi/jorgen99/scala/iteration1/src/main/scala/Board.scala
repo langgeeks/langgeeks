@@ -3,21 +3,22 @@ import scala.collection.mutable.ListBuffer
 import Square._
 
 class Board {
+  import Board._
   var squares: Array[Array[Square.Value]] = _
   var player = Black  
 
   def startGame() = {
-    parseBoard(
-      "     ........     \n" +
-      "     ........     \n" +
-      "     ........     \n" +
-      "     ...BW...     \n" +
-      "     ...WB...     \n" +
-      "     ........     \n" +
-      "     ........     \n" +
-      "     ........     \n" +
-      "     B              "
-    )
+    parseBoard("""
+                    ........
+                    ........
+                    ........
+                    ...BW...
+                    ...WB...
+                    ........
+                    ........
+                    ........
+                    B
+    """)
   }
 
 
@@ -28,14 +29,6 @@ class Board {
       squares = squares.dropRight(1)
     }
     squares
-  }
-
-  def stripLines(board: String) = {
-    board.split("\n").map{_.trim}.filter{_.size != 0}
-  }
-
-  def createRow(row: String) = {
-    row.map { Square.parse(_) }.toArray
   }
 
   def opponent() = {
@@ -160,18 +153,27 @@ class Board {
   }.toArray
 
   override def toString() = {
-    toString(squares)
+    Board.toString(squares, player)
   }
   
-  def toString(squares: Array[Array[Square.Value]]) = {
-    val str = squares.map {
-      _.mkString + "\n"
-    }.mkString
-    if (player != null)
-      str + player
-    else
-      str
+}
+
+object Board {
+
+  def strip(board: String) = {
+    stripLines(board).mkString("\n")
   }
 
+  def stripLines(board: String) = {
+    board.split("\n").map{_.trim}.filter{_.size != 0}
+  }
+
+  def createRow(row: String) = {
+    row.map { Square(_) }.toArray
+  }
+
+  def toString(squares: Array[Array[Square.Value]], player: Square.Value = Square.White) = {
+    squares.map{ _.mkString }.mkString("", "\n", "\n") + player
+  }
 }
 

@@ -4,7 +4,7 @@ object Square extends Enumeration {
   val Empty = Value(".")
   val Possible = Value("O")
 
-  def parse(cell: Char): Square.Value = cell match {
+  def apply(cell: Char): Square.Value = cell match {
     case '.' => Empty
     case 'W' => White
     case 'B' => Black
