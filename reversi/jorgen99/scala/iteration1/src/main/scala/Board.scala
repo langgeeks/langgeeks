@@ -4,7 +4,8 @@ import Square._
 
 class Board {
   import Board._
-  var squares: Array[Array[Square.Value]] = _
+
+  var squares: BoardMatrix = _
   var player = Black  
 
   def startGame() = {
@@ -44,31 +45,31 @@ class Board {
     squares = evaluateDiagonals(squares)
   }
 
-  def evaluateRowsTopDown(board: Array[Array[Square.Value]]) = {
+  def evaluateRowsTopDown(board: BoardMatrix) = {
     board.map { row =>
       evaluateRow(evaluateRow(row).reverse).reverse
     }
   }
 
-  def evaluateColumnsLeftToRight(board: Array[Array[Square.Value]]) = {
+  def evaluateColumnsLeftToRight(board: BoardMatrix) = {
     evaluateRowsTopDown(board.transpose).transpose
   }
 
-  def evaluateDiagonals(board: Array[Array[Square.Value]]) = {
+  def evaluateDiagonals(board: BoardMatrix) = {
     val leftToRight = evaluateDiagonally(board)
     val turned = clockwise(leftToRight)
     val upAndDown = evaluateDiagonally(turned)
     counterClockwise(upAndDown)
   }
 
-  def evaluateDiagonally(board: Array[Array[Square.Value]]) = {
+  def evaluateDiagonally(board: BoardMatrix) = {
     val d = diagonals(board).map { row =>
       evaluateRow(evaluateRow(row).reverse).reverse
     }
     backToMatrix(d)
   }
 
-  def backToMatrix(diagonals: Array[Array[Square.Value]], matrix:ArrayBuffer[Array[Square.Value]] = new ArrayBuffer()):Array[Array[Square.Value]] = {
+  def backToMatrix(diagonals: BoardMatrix, matrix: MutableBoardMatrix = new ArrayBuffer()):BoardMatrix = {
     if(diagonals.isEmpty)
       return matrix.toArray
     val r = rowFrom(diagonals)
@@ -77,12 +78,12 @@ class Board {
     backToMatrix(stripped, matrix)
   }
 
-  def rowFrom(diagonals: Array[Array[Square.Value]]) = {
+  def rowFrom(diagonals: BoardMatrix) = {
     for(i <- 0 until squares.size) yield diagonals(i).last
   }.toArray
 
-  def stripAwayRowFrom(diagonals: Array[Array[Square.Value]]) = {
-    val r = new ArrayBuffer[Array[Square.Value]]()
+  def stripAwayRowFrom(diagonals: BoardMatrix) = {
+    val r = new MutableBoardMatrix()
     for(i <- 0 until diagonals.size)  {
       if(i >= squares.size ) r += diagonals(i)
       else if(diagonals(i).init.size != 0) r += diagonals(i).init
@@ -90,7 +91,7 @@ class Board {
     r.toArray
   }
 
-  def evaluateRow(row: Array[Square.Value]): Array[Square.Value] = {
+  def evaluateRow(row: Row): Row = {
     if (row.isEmpty)
       return row
     if (row.head == Empty && possibleMove(row.tail))
@@ -98,11 +99,11 @@ class Board {
     row.head +: evaluateRow(row.tail)
   }
 
-  def possibleMove(row: Array[Square.Value]): Boolean = {
+  def possibleMove(row: Row): Boolean = {
     possibleMove(row, true)
   }
 
-  def possibleMove(row: Array[Square.Value], atTheStart: Boolean): Boolean = {
+  def possibleMove(row: Row, atTheStart: Boolean): Boolean = {
     if (row.isEmpty)
       return false
     if (row.head == Empty || row.head == Possible)
@@ -114,9 +115,9 @@ class Board {
     return possibleMove(row.tail, false)
   }
 
-  def diagonals(squares: Array[Array[Square.Value]]) = {
+  def diagonals(squares: BoardMatrix) = {
     val size = squares.size - 1
-    val reply: ListBuffer[Array[Square.Value]] = ListBuffer()
+    val reply: ListBuffer[Row] = ListBuffer()
     
     for (i <- 0 to size) {    
       val row: ListBuffer[Square.Value] = ListBuffer()
@@ -140,13 +141,13 @@ class Board {
     reply.toArray
   }
 
-  def clockwise(squares: Array[Array[Square.Value]]) = {
+  def clockwise(squares: BoardMatrix) = {
     for (i <- 0 until squares.size) yield {
       for(j <- squares.size -1 to 0 by -1) yield squares(j)(i)
     }.toArray
   }.toArray
 
-  def counterClockwise(squares: Array[Array[Square.Value]]) = {
+  def counterClockwise(squares: BoardMatrix) = {
     for (i <- squares.size - 1 to 0 by -1) yield {
       for(j <- 0 until squares.size) yield squares(j)(i)
     }.toArray
@@ -160,6 +161,12 @@ class Board {
 
 object Board {
 
+  import Square._
+  type Square = Square.Value
+  type Row = Array[Square]
+  type BoardMatrix = Array[Row]
+  type MutableBoardMatrix = ArrayBuffer[Row]
+
   def strip(board: String) = {
     stripLines(board).mkString("\n")
   }
@@ -172,7 +179,7 @@ object Board {
     row.map { Square(_) }.toArray
   }
 
-  def toString(squares: Array[Array[Square.Value]], player: Square.Value = Square.White) = {
+  def toString(squares: BoardMatrix, player: Square = White) = {
     squares.map{ _.mkString }.mkString("", "\n", "\n") + player
   }
 }

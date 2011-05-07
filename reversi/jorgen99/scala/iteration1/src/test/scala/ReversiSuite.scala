@@ -1,5 +1,4 @@
 import org.scalatest.junit.JUnitSuite
-// import org.scalatest.junit.AssertionsForJUnit
 import org.junit.Test
 import org.junit.Ignore
 import org.junit.Before
@@ -9,7 +8,6 @@ import Square._
 import Board._
 
 class ReversiSuite extends JUnitSuite {
-// class ReversiSuite extends AssertionsForJUnit {
   var board: Board = _
 
   @Before
@@ -186,7 +184,7 @@ class ReversiSuite extends JUnitSuite {
     assertEquals(expected, board.toString)
   }
 
-  def barString(board: Array[Array[Square.Value]]) = {
+  def barString(board: BoardMatrix) = {
     board.map { _.mkString }.mkString("|")
   }
 
