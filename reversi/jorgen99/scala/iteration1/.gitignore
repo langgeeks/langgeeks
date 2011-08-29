@@ -1,1 +1,7 @@
-lib
+lib/
+tebb/
+target/
+project/boot/
+lib_managed/
+src_managed/
+*~
